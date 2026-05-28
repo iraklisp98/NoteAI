@@ -1,4 +1,4 @@
-import { generateChatResponse } from "../agents/conversationAgent.js";
+import { runConversationAgent } from "../agents/conversationAgent.js";
 
 async function readJsonBody(request) {
   const chunks = [];
@@ -30,12 +30,12 @@ function normalizeChatBody(body) {
   };
 }
 
-export function createChatHandler() {
+export function createChatHandler({ geminiJsonGenerator } = {}) {
   return async function chatHandler(request, response) {
     const { question, recoveryPlan } = normalizeChatBody(request?.body);
 
     try {
-      const payload = generateChatResponse({ question, recoveryPlan });
+      const payload = await runConversationAgent({ question, recoveryPlan, geminiJsonGenerator });
       return response.status(200).json(payload);
     } catch (error) {
       return response.status(200).json({
@@ -48,11 +48,11 @@ export function createChatHandler() {
   };
 }
 
-export async function handleChatRoute(request) {
+export async function handleChatRoute(request, { geminiJsonGenerator } = {}) {
   try {
     const { question, recoveryPlan } = normalizeChatBody(await readJsonBody(request));
 
-    return generateChatResponse({ question, recoveryPlan });
+    return await runConversationAgent({ question, recoveryPlan, geminiJsonGenerator });
   } catch (error) {
     return {
       answer:

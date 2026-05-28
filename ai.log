@@ -1,0 +1,9 @@
+Timestamp: 2026-05-28T15:43:17+0300
+Model used: GPT-5 Codex
+What changed: Added Gemini-backed Conversation Agent execution for ordinary grounded chat questions while preserving deterministic safety responses for medication and emergency questions.
+For what reason: All agents need real API integration without weakening the demo safety guardrails.
+
+Timestamp: 2026-05-28T15:56:27+0300
+Model used: GPT-5 Codex
+What changed: Sanitized .env.example, added a tested server-side .env loader, and wired server startup to load local environment variables.
+For what reason: Live Gemini API calls require local environment variables while secrets must stay out of tracked example files.

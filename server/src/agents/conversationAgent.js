@@ -1,7 +1,17 @@
 import { classifyChatSafety } from "../safety/chatSafetyClassifier.js";
+import { generateJsonWithGemini } from "../services/geminiClient.js";
 
 const EMERGENCY_SENTENCE =
   "If you have chest pain, severe trouble breathing, confusion, blue lips, fainting, or oxygen below 90%, seek emergency care.";
+const allowedSafetyLevels = new Set(["normal", "ask_doctor", "emergency"]);
+
+class ConversationAgentValidationError extends Error {
+  constructor(errors) {
+    super(`Conversation Agent output was invalid: ${errors.join("; ")}`);
+    this.name = "ConversationAgentValidationError";
+    this.errors = errors;
+  }
+}
 
 export function generateChatResponse({ question, recoveryPlan } = {}) {
   const safety = classifyChatSafety(question);
@@ -38,6 +48,28 @@ export function generateChatResponse({ question, recoveryPlan } = {}) {
   }
 
   return buildGroundedGeneralAnswer(question, plan);
+}
+
+export async function runConversationAgent({
+  question,
+  recoveryPlan,
+  geminiJsonGenerator = generateJsonWithGemini
+} = {}) {
+  const safety = classifyChatSafety(question);
+
+  if (safety.category !== "general") {
+    return generateChatResponse({ question, recoveryPlan });
+  }
+
+  try {
+    const output = await geminiJsonGenerator({
+      prompt: buildConversationPrompt({ question, recoveryPlan })
+    });
+
+    return validateConversationOutput(output);
+  } catch (error) {
+    return generateChatResponse({ question, recoveryPlan });
+  }
 }
 
 function buildMedicationInteractionAnswer(plan) {
@@ -103,6 +135,66 @@ function buildGroundedGeneralAnswer(question, plan) {
       "I can answer using the generated recovery plan, but I cannot diagnose new symptoms or replace medical advice. Ask about medications, today's tasks, red flags, or follow-up steps.",
     source: "Recovery Plan",
     safetyLevel: "normal",
+  };
+}
+
+function buildConversationPrompt({ question, recoveryPlan }) {
+  return `
+You are CAREFLOW's Conversation Agent.
+
+Answer the patient's question using only the recovery plan JSON plus general safety guidance.
+
+Return JSON only with this exact shape:
+{
+  "answer": "",
+  "source": "Recovery Plan | Today's Plan | Medication Timeline | Red Flags | Follow-Up Checklist",
+  "safetyLevel": "normal | ask_doctor | emergency"
+}
+
+Rules:
+- Do not diagnose new conditions.
+- Do not prescribe, stop, or change medication doses.
+- If information is missing, say it is missing.
+- For medication changes or additions, tell the patient to ask a doctor or pharmacist.
+- Never tell the patient emergency care is unnecessary.
+- Escalate chest pain, severe trouble breathing, confusion, blue lips, fainting, or oxygen below 90%.
+- Keep the answer concise and patient-friendly.
+
+Patient question:
+${question || ""}
+
+Recovery plan JSON:
+${JSON.stringify(recoveryPlan || {})}
+`.trim();
+}
+
+function validateConversationOutput(output) {
+  const errors = [];
+
+  if (!output || typeof output !== "object" || Array.isArray(output)) {
+    throw new ConversationAgentValidationError(["output must be an object"]);
+  }
+
+  if (typeof output.answer !== "string" || !output.answer.trim()) {
+    errors.push("answer must be a non-empty string");
+  }
+
+  if (typeof output.source !== "string" || !output.source.trim()) {
+    errors.push("source must be a non-empty string");
+  }
+
+  if (typeof output.safetyLevel !== "string" || !allowedSafetyLevels.has(output.safetyLevel)) {
+    errors.push("safetyLevel must be normal, ask_doctor, or emergency");
+  }
+
+  if (errors.length > 0) {
+    throw new ConversationAgentValidationError(errors);
+  }
+
+  return {
+    answer: output.answer,
+    source: output.source,
+    safetyLevel: output.safetyLevel
   };
 }
 

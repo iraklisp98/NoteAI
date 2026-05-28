@@ -5,7 +5,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import samplePlan from "../../shared/sampleRecoveryPlan.json" assert { type: "json" };
-import { generateChatResponse } from "../src/agents/conversationAgent.js";
+import { generateChatResponse, runConversationAgent } from "../src/agents/conversationAgent.js";
 import { createChatHandler, registerChatRoute } from "../src/routes/chatRoute.js";
 import { classifyChatSafety } from "../src/safety/chatSafetyClassifier.js";
 
@@ -72,6 +72,57 @@ test("medication dose changes are refused safely", () => {
   assert.equal(result.safetyLevel, "ask_doctor");
   assert.match(result.answer, /cannot tell you to change/i);
   assert.match(result.answer, /doctor or pharmacist/i);
+});
+
+test("conversation agent calls Gemini for ordinary grounded questions", async () => {
+  const prompts = [];
+  const result = await runConversationAgent({
+    question: "What follow-up do I need?",
+    recoveryPlan: samplePlan,
+    geminiJsonGenerator: async ({ prompt }) => {
+      prompts.push(prompt);
+      return {
+        answer: "Your plan says to follow up with primary care in 3-5 days.",
+        source: "Follow-Up Checklist",
+        safetyLevel: "normal"
+      };
+    }
+  });
+
+  assert.equal(prompts.length, 1);
+  assert.match(prompts[0], /You are CAREFLOW's Conversation Agent/);
+  assert.equal(result.source, "Follow-Up Checklist");
+  assert.equal(result.safetyLevel, "normal");
+  assert.match(result.answer, /3-5 days/);
+});
+
+test("conversation agent keeps medication interaction questions deterministic", async () => {
+  let callCount = 0;
+  const result = await runConversationAgent({
+    question: "Can I take ibuprofen with these medications?",
+    recoveryPlan: samplePlan,
+    geminiJsonGenerator: async () => {
+      callCount += 1;
+      return {};
+    }
+  });
+
+  assert.equal(callCount, 0);
+  assert.equal(result.answer, goldenIbuprofenAnswer);
+});
+
+test("conversation agent falls back safely when Gemini returns invalid chat output", async () => {
+  const result = await runConversationAgent({
+    question: "What follow-up do I need?",
+    recoveryPlan: samplePlan,
+    geminiJsonGenerator: async () => ({
+      answer: "Primary care follow-up"
+    })
+  });
+
+  assert.equal(result.source, "Follow-Up Checklist");
+  assert.equal(result.safetyLevel, "normal");
+  assert.match(result.answer, /follow-up steps/i);
 });
 
 test("chat route remains stable for malformed input", async () => {
