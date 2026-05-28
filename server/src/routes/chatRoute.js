@@ -1,4 +1,4 @@
-import { generateChatResponse } from "../agents/conversationAgent.js";
+import { ChatGenerationError, generateChatResponse } from "../agents/conversationAgent.js";
 
 async function readJsonBody(request) {
   const chunks = [];
@@ -30,20 +30,22 @@ function normalizeChatBody(body) {
   };
 }
 
-export function createChatHandler() {
+export function createChatHandler({ chatGenerator } = {}) {
   return async function chatHandler(request, response) {
     const { question, recoveryPlan } = normalizeChatBody(request?.body);
 
     try {
-      const payload = await generateChatResponse({ question, recoveryPlan });
+      const payload = await generateChatResponse({ question, recoveryPlan, geminiChatGenerator: chatGenerator });
       return response.status(200).json(payload);
     } catch (error) {
-      return response.status(200).json({
-        answer:
-          "I could not safely process that question. Please ask using the recovery plan, and contact your doctor or pharmacist for medical decisions.",
-        source: "Recovery Plan",
-        safetyLevel: "ask_doctor",
-      });
+      if (error instanceof ChatGenerationError) {
+        return response.status(502).json({
+          error: error.code,
+          message: error.message
+        });
+      }
+
+      throw error;
     }
   };
 }
@@ -54,12 +56,17 @@ export async function handleChatRoute(request) {
 
     return await generateChatResponse({ question, recoveryPlan });
   } catch (error) {
-    return {
-      answer:
-        "I could not safely process that question. Please ask using the recovery plan, and contact your doctor or pharmacist for medical decisions.",
-      source: "Recovery Plan",
-      safetyLevel: "ask_doctor"
-    };
+    if (error instanceof ChatGenerationError) {
+      return {
+        statusCode: 502,
+        body: {
+          error: error.code,
+          message: error.message
+        }
+      };
+    }
+
+    throw error;
   }
 }
 

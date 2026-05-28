@@ -38,7 +38,12 @@ export function createServer() {
       }
 
       if (request.method === "POST" && request.url === "/api/chat") {
-        sendJson(response, 200, await handleChatRoute(request));
+        const result = await handleChatRoute(request);
+        if (result && typeof result.statusCode === "number" && "body" in result) {
+          sendJson(response, result.statusCode, result.body);
+        } else {
+          sendJson(response, 200, result);
+        }
         return;
       }
 

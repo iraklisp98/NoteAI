@@ -32,15 +32,13 @@ async function postJson(server, path, body) {
   }
 }
 
-test("POST /api/chat routes to the conversation agent", async () => {
+test("POST /api/chat requires the live Conversation Agent for non-emergency questions", async () => {
   const response = await postJson(createServer(), "/api/chat", {
     question: "Can I take ibuprofen with these medications?",
     plan: samplePlan
   });
 
-  assert.equal(response.status, 200);
-  assert.equal(response.body.source, "Medication Timeline");
-  assert.equal(response.body.safetyLevel, "ask_doctor");
-  assert.match(response.body.answer, /doctor or pharmacist/i);
-  assert.match(response.body.answer, /amoxicillin\/clavulanate/i);
+  assert.equal(response.status, 502);
+  assert.equal(response.body.error, "CHAT_AGENT_GENERATION_FAILED");
+  assert.match(response.body.message, /live Gemini/i);
 });

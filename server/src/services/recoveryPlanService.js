@@ -14,23 +14,21 @@ import { validateRecoveryPlan } from "./recoveryPlanValidator.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "../../..");
-const fallbackPlanPath = path.join(repoRoot, "shared/sampleRecoveryPlan.json");
 const agentProgressPath = path.join(repoRoot, "shared/agentProgress.json");
+const sampleNotePath = path.join(repoRoot, "shared/sampleDischargeNote.txt");
+
+export class RecoveryPlanGenerationError extends Error {
+  constructor(code, message, cause) {
+    super(message);
+    this.name = "RecoveryPlanGenerationError";
+    this.code = code;
+    this.cause = cause;
+  }
+}
 
 async function readJson(filePath) {
   const content = await readFile(filePath, "utf8");
   return JSON.parse(content);
-}
-
-async function loadFallbackPlan() {
-  const plan = await readJson(fallbackPlanPath);
-  const validation = validateRecoveryPlan(plan);
-
-  if (!validation.valid) {
-    throw new Error(`Fallback recovery plan is invalid: ${validation.errors.join("; ")}`);
-  }
-
-  return plan;
 }
 
 async function loadAgentProgress() {
@@ -41,39 +39,6 @@ async function loadAgentProgress() {
     status: "complete",
     summary: agent.summary
   }));
-}
-
-function findLikelyMedicationDoseGaps(dischargeText) {
-  const lines = dischargeText
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-  const dosePattern = /\b\d+(?:\.\d+)?\s*(?:mg|mcg|g|ml|mL|units?|puffs?|tablets?|capsules?)\b/i;
-  const medicationCue = /(?:medication|medications|take|tablet|capsule|inhaler|by mouth|daily|twice daily|every \d+)/i;
-
-  return lines.flatMap((line) => {
-    if (!medicationCue.test(line) || dosePattern.test(line) || /discharge medications?:?$/i.test(line)) {
-      return [];
-    }
-
-    const match = line.match(/^(?:\d+[.)]?\s*)?([A-Z][A-Za-z0-9/-]+)/);
-    if (!match) {
-      return [];
-    }
-
-    return [`${match[1]} dose was not clearly listed in the discharge text.`];
-  });
-}
-
-function mergeMissingInformation(plan, additions) {
-  if (additions.length === 0) {
-    return plan;
-  }
-
-  return {
-    ...plan,
-    missing_information: [...new Set([...plan.missing_information, ...additions])]
-  };
 }
 
 async function runRecoveryAgentPipeline({ dischargeText, geminiJsonGenerator }) {
@@ -97,47 +62,51 @@ export async function buildRecoveryPlan({
   useSample = false,
   geminiJsonGenerator = generateJsonWithGemini
 } = {}) {
-  const trimmedText = typeof text === "string" ? text.trim() : "";
-  const warnings = [];
-  const missingInformationAdditions = findLikelyMedicationDoseGaps(trimmedText);
+  const providedText = typeof text === "string" ? text.trim() : "";
+  const trimmedText = providedText || (useSample ? (await readFile(sampleNotePath, "utf8")).trim() : "");
 
-  if (!useSample && !trimmedText) {
-    warnings.push("No discharge text was provided, so CAREFLOW returned the sample fallback recovery plan.");
-  } else if (!useSample) {
-    try {
-      const plan = await runRecoveryAgentPipeline({
-        dischargeText: trimmedText,
-        geminiJsonGenerator
-      });
-      const validation = validateRecoveryPlan(plan);
+  if (!trimmedText) {
+    throw new RecoveryPlanGenerationError(
+      "RECOVERY_TEXT_REQUIRED",
+      "Discharge text is required before the live recovery-plan agents can run."
+    );
+  }
 
-      if (validation.valid) {
-        return {
-          plan: mergeMissingInformation(plan, missingInformationAdditions),
-          agents: await loadAgentProgress(),
-          warnings,
-          source: "gemini"
-        };
-      }
-
-      warnings.push(`Gemini output was invalid, so CAREFLOW returned the sample fallback recovery plan. ${validation.errors.join("; ")}`);
-    } catch (error) {
-      if (error instanceof AgentOutputValidationError) {
-        warnings.push(`Gemini output was invalid, so CAREFLOW returned the sample fallback recovery plan. ${error.message}`);
-      } else {
-        warnings.push(
-          `Gemini generation failed, so CAREFLOW returned the sample fallback recovery plan. ${
-            error instanceof Error ? error.message : "Unknown error."
-          }`
-        );
-      }
+  let plan;
+  try {
+    plan = await runRecoveryAgentPipeline({
+      dischargeText: trimmedText,
+      geminiJsonGenerator
+    });
+  } catch (error) {
+    if (error instanceof AgentOutputValidationError) {
+      throw new RecoveryPlanGenerationError(
+        "RECOVERY_AGENT_OUTPUT_INVALID",
+        error.message,
+        error
+      );
     }
+
+    throw new RecoveryPlanGenerationError(
+      "RECOVERY_AGENT_GENERATION_FAILED",
+      `The live Gemini recovery-plan agents could not generate a plan. ${error instanceof Error ? error.message : "Unknown error."}`,
+      error
+    );
+  }
+
+  const validation = validateRecoveryPlan(plan);
+
+  if (!validation.valid) {
+    throw new RecoveryPlanGenerationError(
+      "RECOVERY_PLAN_INVALID",
+      `The live Gemini recovery-plan agents returned an invalid plan. ${validation.errors.join("; ")}`
+    );
   }
 
   return {
-    plan: mergeMissingInformation(await loadFallbackPlan(), missingInformationAdditions),
+    plan,
     agents: await loadAgentProgress(),
-    warnings,
-    source: "fallback"
+    warnings: [],
+    source: "gemini"
   };
 }

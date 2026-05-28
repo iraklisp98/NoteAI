@@ -70,14 +70,12 @@ async function postJson(server, path, body) {
   }
 }
 
-test("POST /api/recovery-plan returns a valid fallback plan", async () => {
-  const response = await postJson(createServer(), "/api/recovery-plan", { useSample: true });
+test("POST /api/recovery-plan requires discharge text", async () => {
+  const response = await postJson(createServer(), "/api/recovery-plan", {});
 
-  assert.equal(response.status, 200);
-  assert.equal(response.body.source, "fallback");
-  assert.equal(response.body.plan.summary.title, "Recovering at home after pneumonia");
-  assert.ok(response.body.agents.length >= 5);
-  assert.deepEqual(response.body.warnings, []);
+  assert.equal(response.status, 400);
+  assert.equal(response.body.error, "RECOVERY_TEXT_REQUIRED");
+  assert.match(response.body.message, /discharge text/i);
 });
 
 test("unknown routes return 404 JSON", async () => {
@@ -87,30 +85,40 @@ test("unknown routes return 404 JSON", async () => {
   assert.equal(response.body.error, "NOT_FOUND");
 });
 
-test("POST /api/recovery-plan falls back deterministically when AI path fails", async () => {
+test("POST /api/recovery-plan surfaces live Gemini failures instead of returning a local plan", async () => {
   const response = await postJson(createServer(), "/api/recovery-plan", {
-    text: "Discharge diagnosis: pneumonia"
+    text: [
+      "Discharge diagnosis: Acute bronchitis",
+      "Discharge medications:",
+      "Doxycycline 100 mg by mouth twice daily for 7 days.",
+      "Follow-up: Pulmonology clinic in 1 week."
+    ].join("\n")
   });
 
-  assert.equal(response.status, 200);
-  assert.equal(response.body.source, "fallback");
-  assert.match(response.body.warnings.join("\n"), /Gemini generation failed/);
-  assert.equal(response.body.plan.summary.title, "Recovering at home after pneumonia");
+  assert.equal(response.status, 502);
+  assert.equal(response.body.error, "RECOVERY_AGENT_GENERATION_FAILED");
+  assert.match(response.body.message, /live Gemini/i);
 });
 
-test("POST /api/recovery-plan accepts a readable uploaded text PDF fallback", async () => {
+test("POST /api/recovery-plan requires live Gemini for a readable uploaded PDF", async () => {
   const response = await postMultipart(createServer(), "/api/recovery-plan", [
     {
       name: "file",
       filename: "discharge.pdf",
       contentType: "application/pdf",
-      value: Buffer.from("Discharge diagnosis: pneumonia")
+      value: Buffer.from([
+        "Discharge diagnosis: Sinus infection",
+        "Discharge medications:",
+        "Azithromycin 250 mg by mouth daily for 4 days.",
+        "Follow-up: ENT clinic in 2 weeks."
+      ].join("\n"))
     }
   ]);
 
-  assert.equal(response.status, 200);
+  assert.equal(response.status, 502);
   assert.notEqual(response.body.error, "PDF_TEXT_EXTRACTION_FAILED");
-  assert.equal(response.body.plan.summary.title, "Recovering at home after pneumonia");
+  assert.equal(response.body.error, "RECOVERY_AGENT_GENERATION_FAILED");
+  assert.match(response.body.message, /live Gemini/i);
 });
 
 test("POST /api/recovery-plan returns fallback-friendly error when PDF text extraction fails", async () => {

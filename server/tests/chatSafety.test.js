@@ -10,7 +10,6 @@ import { classifyChatSafety } from "../src/safety/chatSafetyClassifier.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const samplePlan = JSON.parse(readFileSync(path.join(__dirname, "../../shared/sampleRecoveryPlan.json"), "utf8"));
-const goldenIbuprofenAnswer = readFileSync(path.join(__dirname, "../../shared/goldenIbuprofenAnswer.txt"), "utf8").trim();
 
 test("ibuprofen question routes to doctor or pharmacist guidance", () => {
   const result = classifyChatSafety("Can I take ibuprofen with these medications?");
@@ -29,33 +28,22 @@ test("emergency symptoms always escalate", async () => {
   assert.match(result.answer, /seek emergency care/i);
 });
 
-test("ibuprofen answer is grounded in the recovery plan medications", async () => {
-  const result = await generateChatResponse({
-    question: "Can I take ibuprofen with these medications?",
-    recoveryPlan: samplePlan,
-    geminiChatGenerator: async () => {
-      throw new Error("force fallback");
-    },
-  });
-
-  assert.equal(result.safetyLevel, "ask_doctor");
-  assert.equal(result.source, "Medication Timeline");
-  assert.match(result.answer, /amoxicillin\/clavulanate/i);
-  assert.match(result.answer, /albuterol/i);
-  assert.match(result.answer, /acetaminophen/i);
-  assert.match(result.answer, /doctor or pharmacist/i);
-});
-
-test("sample ibuprofen question returns the golden demo answer when Gemini is unavailable", async () => {
-  const result = await generateChatResponse({
-    question: "Can I take ibuprofen with these medications?",
-    recoveryPlan: samplePlan,
-    geminiChatGenerator: async () => {
-      throw new Error("force fallback");
-    },
-  });
-
-  assert.equal(result.answer, goldenIbuprofenAnswer);
+test("non-emergency medication questions require a live Gemini answer", async () => {
+  await assert.rejects(
+    () =>
+      generateChatResponse({
+        question: "Can I take ibuprofen with these medications?",
+        recoveryPlan: samplePlan,
+        geminiChatGenerator: async () => {
+          throw new Error("force fallback");
+        },
+      }),
+    (error) => {
+      assert.equal(error.code, "CHAT_AGENT_GENERATION_FAILED");
+      assert.match(error.message, /live Gemini/i);
+      return true;
+    }
+  );
 });
 
 test("Gemini conversation answers are grounded in the recovery plan", async () => {
@@ -83,31 +71,6 @@ test("Gemini conversation answers are grounded in the recovery plan", async () =
   assert.match(result.answer, /Gemini checked/i);
 });
 
-test("missing medication data produces uncertainty language", async () => {
-  const result = await generateChatResponse({
-    question: "Can I take ibuprofen with these medications?",
-    recoveryPlan: { ...samplePlan, medications: [] },
-  });
-
-  assert.equal(result.safetyLevel, "ask_doctor");
-  assert.match(result.answer, /do not have medication details/i);
-  assert.match(result.answer, /doctor or pharmacist/i);
-});
-
-test("medication dose changes are refused safely", async () => {
-  const result = await generateChatResponse({
-    question: "Can I double my antibiotic dose tonight?",
-    recoveryPlan: samplePlan,
-    geminiChatGenerator: async () => {
-      throw new Error("force fallback");
-    },
-  });
-
-  assert.equal(result.safetyLevel, "ask_doctor");
-  assert.match(result.answer, /cannot tell you to change/i);
-  assert.match(result.answer, /doctor or pharmacist/i);
-});
-
 test("chat route remains stable for malformed input", async () => {
   const handler = createChatHandler();
   const response = await callHandler(handler, { body: { question: 42, recoveryPlan: null } });
@@ -115,6 +78,24 @@ test("chat route remains stable for malformed input", async () => {
   assert.equal(response.statusCode, 200);
   assert.equal(response.body.safetyLevel, "normal");
   assert.match(response.body.answer, /ask a question/i);
+});
+
+test("chat route surfaces live Gemini failures for non-emergency questions", async () => {
+  const handler = createChatHandler({
+    chatGenerator: async () => {
+      throw new Error("offline");
+    }
+  });
+  const response = await callHandler(handler, {
+    body: {
+      question: "Can I take ibuprofen with these medications?",
+      recoveryPlan: samplePlan
+    }
+  });
+
+  assert.equal(response.statusCode, 502);
+  assert.equal(response.body.error, "CHAT_AGENT_GENERATION_FAILED");
+  assert.match(response.body.message, /live Gemini/i);
 });
 
 test("chat route registers POST /api/chat", () => {

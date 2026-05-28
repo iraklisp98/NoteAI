@@ -1,4 +1,4 @@
-import { buildRecoveryPlan } from "../services/recoveryPlanService.js";
+import { buildRecoveryPlan, RecoveryPlanGenerationError } from "../services/recoveryPlanService.js";
 import { extractPdfText, PdfTextExtractionError } from "../services/pdfTextExtractor.js";
 
 async function readBodyBuffer(request) {
@@ -106,15 +106,25 @@ export async function handleRecoveryPlanRoute(request) {
   try {
     const input = await readRouteInput(request);
 
-    return buildRecoveryPlan(input);
+    return await buildRecoveryPlan(input);
   } catch (error) {
     if (error instanceof PdfTextExtractionError) {
-    return {
-      statusCode: 400,
-      body: {
-        error: error.code,
-        message: error.message
-      }
+      return {
+        statusCode: 400,
+        body: {
+          error: error.code,
+          message: error.message
+        }
+      };
+    }
+
+    if (error instanceof RecoveryPlanGenerationError) {
+      return {
+        statusCode: error.code === "RECOVERY_TEXT_REQUIRED" ? 400 : 502,
+        body: {
+          error: error.code,
+          message: error.message
+        }
       };
     }
 

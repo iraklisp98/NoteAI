@@ -4,21 +4,15 @@ import test from "node:test";
 import { buildRecoveryPlan } from "../src/services/recoveryPlanService.js";
 import { validateRecoveryPlan } from "../src/services/recoveryPlanValidator.js";
 
-test("returns a validated fallback recovery plan in sample mode", async () => {
-  const result = await buildRecoveryPlan({ useSample: true });
-
-  assert.equal(result.source, "fallback");
-  assert.equal(result.warnings.length, 0);
-  assert.ok(result.agents.length >= 5);
-  assert.equal(validateRecoveryPlan(result.plan).valid, true);
-});
-
-test("falls back safely when no discharge text is provided", async () => {
-  const result = await buildRecoveryPlan({ text: "" });
-
-  assert.equal(result.source, "fallback");
-  assert.match(result.warnings.join("\n"), /No discharge text/);
-  assert.equal(validateRecoveryPlan(result.plan).valid, true);
+test("requires discharge text before calling the live agent pipeline", async () => {
+  await assert.rejects(
+    () => buildRecoveryPlan({ text: "" }),
+    (error) => {
+      assert.equal(error.code, "RECOVERY_TEXT_REQUIRED");
+      assert.match(error.message, /discharge text/i);
+      return true;
+    }
+  );
 });
 
 test("uses Gemini output when it returns a valid recovery plan", async () => {
@@ -133,32 +127,53 @@ test("agent files export separate pipeline functions", async () => {
   assert.equal(typeof composeRecoveryPlan.composeRecoveryPlan, "function");
 });
 
-test("falls back safely when Gemini returns an invalid recovery plan", async () => {
+test("surfaces invalid Gemini agent output instead of returning a local recovery plan", async () => {
   const invalidIntake = {
     summary: {
       title: "Invalid plan"
     }
   };
 
-  const result = await buildRecoveryPlan({
-    text: "Discharge diagnosis: pneumonia",
-    geminiJsonGenerator: async () => invalidIntake
-  });
-
-  assert.equal(result.source, "fallback");
-  assert.match(result.warnings.join("\n"), /Gemini output was invalid/);
-  assert.equal(validateRecoveryPlan(result.plan).valid, true);
+  await assert.rejects(
+    () =>
+      buildRecoveryPlan({
+        text: [
+          "Discharge diagnosis: Acute bronchitis",
+          "Discharge medications:",
+          "Doxycycline 100 mg by mouth twice daily for 7 days.",
+          "Follow-up: Pulmonology clinic in 1 week.",
+          "Return precautions: Seek emergency care for chest pain or severe trouble breathing."
+        ].join("\n"),
+        geminiJsonGenerator: async () => invalidIntake
+      }),
+    (error) => {
+      assert.equal(error.code, "RECOVERY_AGENT_OUTPUT_INVALID");
+      assert.match(error.message, /Intake Agent output was invalid/);
+      return true;
+    }
+  );
 });
 
-test("preserves likely missing medication dose details when falling back", async () => {
-  const result = await buildRecoveryPlan({
-    text: "Discharge diagnosis: pneumonia\nDischarge medications:\nAzithromycin by mouth daily.",
-    geminiJsonGenerator: async () => {
-      throw new Error("offline");
+test("surfaces Gemini request failures instead of building a local recovery plan", async () => {
+  await assert.rejects(
+    () =>
+      buildRecoveryPlan({
+        text: [
+          "Discharge diagnosis: Sinus infection",
+          "Discharge medications:",
+          "Azithromycin by mouth daily.",
+          "Home instructions: Rest and drink fluids.",
+          "Follow-up: ENT clinic in 2 weeks."
+        ].join("\n"),
+        geminiJsonGenerator: async () => {
+          throw new Error("offline");
+        }
+      }),
+    (error) => {
+      assert.equal(error.code, "RECOVERY_AGENT_GENERATION_FAILED");
+      assert.match(error.message, /live Gemini/i);
+      assert.match(error.cause.message, /offline/);
+      return true;
     }
-  });
-
-  assert.equal(result.source, "fallback");
-  assert.match(result.plan.missing_information.join("\n"), /Azithromycin dose/i);
-  assert.equal(validateRecoveryPlan(result.plan).valid, true);
+  );
 });
