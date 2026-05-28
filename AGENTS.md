@@ -25,6 +25,17 @@ The end user is the patient. The buyer story is insurance companies that want fe
 - Pitch deck: separate localhost page/app
 - Safety stance: prototype only, not medical advice
 
+## Mandatory TDD
+
+All implementation work must be done using TDD.
+
+Rules:
+
+- Write or update a failing test first.
+- Implement the smallest change needed to make the test pass.
+- Refactor only after tests pass.
+- Do not merge code that is not covered by meaningful tests for the changed behavior.
+
 If a decision does not improve the live demo, patient clarity, AI orchestration story, or insurance buyer story, cut it.
 
 ---

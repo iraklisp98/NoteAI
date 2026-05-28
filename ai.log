@@ -12,3 +12,8 @@ Timestamp: 2026-05-28T11:13:49+03:00
 Model used: GPT-5 Codex
 What changed: Replaced stale OpenAI references with Gemini API references in AGENTS.md, architecture.md, and Person 2 backend tasks.
 For what reason: The project provider decision changed to Gemini, so the shared foundation must point every teammate at the same AI integration target.
+
+Timestamp: 2026-05-28T11:29:22+03:00
+Model used: GPT-5 Codex
+What changed: Added a new "Mandatory TDD" section in AGENTS.md that explicitly requires all implementation work to follow failing-test-first TDD rules.
+For what reason: The team requested an explicit repository-level requirement that everything is tested using TDD.
