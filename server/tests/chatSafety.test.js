@@ -4,12 +4,12 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-import samplePlan from "../../shared/sampleRecoveryPlan.json" assert { type: "json" };
 import { generateChatResponse } from "../src/agents/conversationAgent.js";
 import { createChatHandler, registerChatRoute } from "../src/routes/chatRoute.js";
 import { classifyChatSafety } from "../src/safety/chatSafetyClassifier.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const samplePlan = JSON.parse(readFileSync(path.join(__dirname, "../../shared/sampleRecoveryPlan.json"), "utf8"));
 const goldenIbuprofenAnswer = readFileSync(path.join(__dirname, "../../shared/goldenIbuprofenAnswer.txt"), "utf8").trim();
 
 test("ibuprofen question routes to doctor or pharmacist guidance", () => {
@@ -19,8 +19,8 @@ test("ibuprofen question routes to doctor or pharmacist guidance", () => {
   assert.equal(result.category, "medication_interaction");
 });
 
-test("emergency symptoms always escalate", () => {
-  const result = generateChatResponse({
+test("emergency symptoms always escalate", async () => {
+  const result = await generateChatResponse({
     question: "I have chest pain and severe trouble breathing. Is that okay?",
     recoveryPlan: samplePlan,
   });
@@ -29,10 +29,13 @@ test("emergency symptoms always escalate", () => {
   assert.match(result.answer, /seek emergency care/i);
 });
 
-test("ibuprofen answer is grounded in the recovery plan medications", () => {
-  const result = generateChatResponse({
+test("ibuprofen answer is grounded in the recovery plan medications", async () => {
+  const result = await generateChatResponse({
     question: "Can I take ibuprofen with these medications?",
     recoveryPlan: samplePlan,
+    geminiChatGenerator: async () => {
+      throw new Error("force fallback");
+    },
   });
 
   assert.equal(result.safetyLevel, "ask_doctor");
@@ -43,17 +46,45 @@ test("ibuprofen answer is grounded in the recovery plan medications", () => {
   assert.match(result.answer, /doctor or pharmacist/i);
 });
 
-test("sample ibuprofen question returns the golden demo answer", () => {
-  const result = generateChatResponse({
+test("sample ibuprofen question returns the golden demo answer when Gemini is unavailable", async () => {
+  const result = await generateChatResponse({
     question: "Can I take ibuprofen with these medications?",
     recoveryPlan: samplePlan,
+    geminiChatGenerator: async () => {
+      throw new Error("force fallback");
+    },
   });
 
   assert.equal(result.answer, goldenIbuprofenAnswer);
 });
 
-test("missing medication data produces uncertainty language", () => {
-  const result = generateChatResponse({
+test("Gemini conversation answers are grounded in the recovery plan", async () => {
+  const calls = [];
+  const result = await generateChatResponse({
+    question: "Can I take ibuprofen with these medications?",
+    recoveryPlan: samplePlan,
+    geminiChatGenerator: async ({ prompt }) => {
+      calls.push(prompt);
+      return {
+        answer:
+          "Gemini checked the recovery plan medications and cannot confirm ibuprofen is safe. The plan lists amoxicillin/clavulanate, albuterol, and acetaminophen, so ask your doctor or pharmacist before taking ibuprofen.",
+        source: "Medication Timeline",
+      };
+    },
+  });
+
+  assert.equal(calls.length, 1);
+  assert.match(calls[0], /amoxicillin\/clavulanate/i);
+  assert.match(calls[0], /albuterol/i);
+  assert.match(calls[0], /acetaminophen/i);
+  assert.match(calls[0], /Return only JSON/i);
+  assert.equal(result.safetyLevel, "ask_doctor");
+  assert.equal(result.source, "Medication Timeline");
+  assert.match(result.answer, /Gemini checked/i);
+});
+
+test("missing medication data produces uncertainty language", async () => {
+  const result = await generateChatResponse({
     question: "Can I take ibuprofen with these medications?",
     recoveryPlan: { ...samplePlan, medications: [] },
   });
@@ -63,10 +94,13 @@ test("missing medication data produces uncertainty language", () => {
   assert.match(result.answer, /doctor or pharmacist/i);
 });
 
-test("medication dose changes are refused safely", () => {
-  const result = generateChatResponse({
+test("medication dose changes are refused safely", async () => {
+  const result = await generateChatResponse({
     question: "Can I double my antibiotic dose tonight?",
     recoveryPlan: samplePlan,
+    geminiChatGenerator: async () => {
+      throw new Error("force fallback");
+    },
   });
 
   assert.equal(result.safetyLevel, "ask_doctor");
