@@ -1,10 +1,38 @@
 import { generateChatResponse } from "../agents/conversationAgent.js";
 
+async function readJsonBody(request) {
+  const chunks = [];
+
+  for await (const chunk of request) {
+    chunks.push(chunk);
+  }
+
+  const rawBody = Buffer.concat(chunks).toString("utf8");
+
+  if (!rawBody.trim()) {
+    return {};
+  }
+
+  return JSON.parse(rawBody);
+}
+
+function normalizeChatBody(body) {
+  const source = body && typeof body === "object" ? body : {};
+
+  return {
+    question: typeof source.question === "string" ? source.question : "",
+    recoveryPlan:
+      source.recoveryPlan && typeof source.recoveryPlan === "object"
+        ? source.recoveryPlan
+        : source.plan && typeof source.plan === "object"
+          ? source.plan
+          : {}
+  };
+}
+
 export function createChatHandler() {
   return async function chatHandler(request, response) {
-    const body = request && typeof request.body === "object" && request.body !== null ? request.body : {};
-    const question = typeof body.question === "string" ? body.question : "";
-    const recoveryPlan = body.recoveryPlan && typeof body.recoveryPlan === "object" ? body.recoveryPlan : {};
+    const { question, recoveryPlan } = normalizeChatBody(request?.body);
 
     try {
       const payload = generateChatResponse({ question, recoveryPlan });
@@ -18,6 +46,21 @@ export function createChatHandler() {
       });
     }
   };
+}
+
+export async function handleChatRoute(request) {
+  try {
+    const { question, recoveryPlan } = normalizeChatBody(await readJsonBody(request));
+
+    return generateChatResponse({ question, recoveryPlan });
+  } catch (error) {
+    return {
+      answer:
+        "I could not safely process that question. Please ask using the recovery plan, and contact your doctor or pharmacist for medical decisions.",
+      source: "Recovery Plan",
+      safetyLevel: "ask_doctor"
+    };
+  }
 }
 
 const chatHandler = createChatHandler();
