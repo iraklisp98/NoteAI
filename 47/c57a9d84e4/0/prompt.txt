@@ -1,0 +1,5 @@
+how can i generate the pitch presentation?
+
+---
+
+i run npm start and the server does not start

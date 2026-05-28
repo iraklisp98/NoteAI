@@ -1,0 +1,66 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "47c57a9d84e4",
+  "session_id": "019e6f3d-606d-74f0-b307-14a48797535c",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-28T16:14:26.552286352Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "ai.log"
+  ],
+  "agent": "Codex",
+  "model": "gpt-5.5",
+  "turn_id": "062aeddd2fb6",
+  "token_usage": {
+    "input_tokens": 107267,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1259008,
+    "output_tokens": 6793,
+    "api_call_count": 44
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-28T16:14:26.524139009Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 17,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 17,
+    "total_lines_changed": 18,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 34,
+      "user_lines_removed": 21629,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "apps/patient/node_modules/.vite/deps/_metadata.json": 26,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js": 4,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js.map": 4
+      },
+      "user_removed_per_file": {
+        "apps/patient/node_modules/.vite/deps/_metadata.json": 5,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js": 21620,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js.map": 4
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 784,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "docs/second_prd.md": 784
+      }
+    }
+  ]
+}
