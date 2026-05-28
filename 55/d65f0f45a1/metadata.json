@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "55d65f0f45a1",
+  "strategy": "manual-commit",
+  "branch": "PatientApp",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "ai.log",
+    "apps/patient/src/App.jsx",
+    "apps/patient/src/styles.css",
+    "apps/patient/tests/App.test.jsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/55/d65f0f45a1/0/metadata.json",
+      "transcript": "/55/d65f0f45a1/0/full.jsonl",
+      "content_hash": "/55/d65f0f45a1/0/content_hash.txt",
+      "prompt": "/55/d65f0f45a1/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 77233,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1001984,
+    "output_tokens": 5074,
+    "api_call_count": 36
+  }
+}
