@@ -9,28 +9,55 @@ const DISCLAIMER =
 
 export default function App() {
   const [plan, setPlan] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
   async function requestRecoveryPlan(payload) {
     setIsGenerating(true);
+    setErrorMessage('');
 
-    const response = await fetch('/api/recovery-plan', {
-      method: 'POST',
-      body: payload
-    });
-    const data = await response.json();
+    try {
+      const response = await fetch('/api/recovery-plan', {
+        method: 'POST',
+        body: payload
+      });
+      const data = await response.json();
 
-    if (response.ok) {
-      setPlan(data.plan);
+      if (response.ok) {
+        setPlan(data.plan);
+      } else {
+        setPlan(null);
+        setErrorMessage(data.message || 'We could not generate a recovery plan. Paste the discharge text or use the sample note for the demo.');
+      }
+    } finally {
+      setIsGenerating(false);
+    }
+  }
+
+  function buildFormPayload() {
+    const formData = new FormData();
+    const textInput = document.getElementById('discharge-text');
+    const fileInput = document.getElementById('pdf-upload');
+
+    if (textInput?.value) {
+      formData.set('text', textInput.value);
     }
 
-    setIsGenerating(false);
+    if (fileInput?.files?.[0]) {
+      formData.set('file', fileInput.files[0]);
+    }
+
+    return formData;
   }
 
   function loadSamplePlan() {
     const formData = new FormData();
     formData.set('useSample', 'true');
     void requestRecoveryPlan(formData);
+  }
+
+  function generateRecoveryPlan() {
+    void requestRecoveryPlan(buildFormPayload());
   }
 
   return (
@@ -55,9 +82,17 @@ export default function App() {
           <button type="button" onClick={loadSamplePlan}>
             Load sample pneumonia note
           </button>
-          <button type="button">Generate recovery plan</button>
+          <button type="button" onClick={generateRecoveryPlan}>
+            Generate recovery plan
+          </button>
         </form>
       </section>
+
+      {errorMessage ? (
+        <section role="alert" aria-label="Recovery plan error">
+          <p>{errorMessage}</p>
+        </section>
+      ) : null}
 
       {isGenerating ? <AgentProgress stages={agentProgress} /> : null}
 

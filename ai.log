@@ -47,3 +47,8 @@ Timestamp: 2026-05-28 13:20 Europe/Athens
 Model used: GPT-5 Codex
 What changed: Added AgentProgress and wired the sample recovery-plan action to show shared agent stages during a pending request, then render the returned dashboard plan.
 For what reason: Complete the Person 1 agent progress loading-state TDD slice.
+
+Timestamp: 2026-05-28 13:33 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Wired Generate recovery plan to /api/recovery-plan and added fallback error display while preserving paste, sample, and disclaimer controls.
+For what reason: Complete the Person 1 PDF/API fallback error-state TDD slice.
