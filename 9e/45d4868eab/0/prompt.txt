@@ -1,0 +1,21 @@
+merge main in PatientApp branch
+
+---
+
+we made some changes in the backend. can you review the server folder and make the necesery implementations so the chat works in the frontend?
+
+---
+
+discard all changes
+
+---
+
+discard all changes
+
+---
+
+discard all changes
+
+---
+
+discard all changes

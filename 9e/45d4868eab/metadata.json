@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "9e45d4868eab",
+  "strategy": "manual-commit",
+  "branch": "PatientApp",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/patient/vite.config.js",
+    "package.json",
+    "scripts/dev.mjs",
+    "server/tests/frontendDevIntegration.test.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/9e/45d4868eab/0/metadata.json",
+      "transcript": "/9e/45d4868eab/0/full.jsonl",
+      "content_hash": "/9e/45d4868eab/0/content_hash.txt",
+      "prompt": "/9e/45d4868eab/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 421481,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 17611776,
+    "output_tokens": 32939,
+    "api_call_count": 244
+  }
+}
