@@ -1,0 +1,1 @@
+i want you to remove my API key from this repo, especially from the .env.example, like it is never existed
