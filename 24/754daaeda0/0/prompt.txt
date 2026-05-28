@@ -1,1 +1,9 @@
-iraklisp98@gmail.com
+hello
+
+---
+
+make small adjastment to readme so i can check if commit works. git add git commit
+
+---
+
+iraklisp98
