@@ -1,1 +1,13 @@
-add, commit and push the changes with message "login page and react fixes"
+git commit and push the changes
+
+---
+
+can you build a script in the repo in order so the commands to start the app could be run from the route repo and not from inside the apps folder?
+
+---
+
+the script does not start the server
+
+---
+
+the page is blank again
