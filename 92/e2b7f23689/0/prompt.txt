@@ -1,0 +1,1 @@
+change the placeholder of invalid credentials form "Use admin or admin@careflow.local with password admin for the demo." to "Invalid username or password"
