@@ -35,7 +35,7 @@ export function createChatHandler({ chatGenerator } = {}) {
     const { question, recoveryPlan } = normalizeChatBody(request?.body);
 
     try {
-      const payload = await generateChatResponse({ question, recoveryPlan, geminiChatGenerator: chatGenerator });
+      const payload = await generateChatResponse({ question, recoveryPlan, aiChatGenerator: chatGenerator });
       return response.status(200).json(payload);
     } catch (error) {
       if (error instanceof ChatGenerationError) {

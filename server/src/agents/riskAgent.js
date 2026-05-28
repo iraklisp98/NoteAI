@@ -42,8 +42,8 @@ function validateRiskOutput(output) {
   return output;
 }
 
-export async function runRiskAgent({ intake, geminiJsonGenerator }) {
-  const output = await geminiJsonGenerator({
+export async function runRiskAgent({ intake, aiJsonGenerator }) {
+  const output = await aiJsonGenerator({
     prompt: buildPrompt({ intake })
   });
 

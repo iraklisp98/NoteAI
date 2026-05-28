@@ -52,8 +52,8 @@ function validateMedicationOutput(output) {
   return output;
 }
 
-export async function runMedicationAgent({ intake, geminiJsonGenerator }) {
-  const output = await geminiJsonGenerator({
+export async function runMedicationAgent({ intake, aiJsonGenerator }) {
+  const output = await aiJsonGenerator({
     prompt: buildPrompt({ intake })
   });
 

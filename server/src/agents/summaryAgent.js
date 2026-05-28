@@ -34,8 +34,8 @@ function validateSummaryOutput(output) {
   return output;
 }
 
-export async function runSummaryAgent({ dischargeText, intake, geminiJsonGenerator }) {
-  const output = await geminiJsonGenerator({
+export async function runSummaryAgent({ dischargeText, intake, aiJsonGenerator }) {
+  const output = await aiJsonGenerator({
     prompt: buildPrompt({ dischargeText, intake })
   });
 

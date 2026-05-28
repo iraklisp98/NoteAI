@@ -28,23 +28,74 @@ ${dischargeText}
 `.trim();
 }
 
-function validateIntakeOutput(output) {
-  const errors = [];
+function stringifyIntakeItem(item) {
+  if (typeof item === "string") {
+    return item.trim();
+  }
 
-  requireString(output?.diagnosis, "diagnosis", errors);
-  requireStringArray(output?.medications, "medications", errors);
-  requireStringArray(output?.follow_ups, "follow_ups", errors);
-  requireStringArray(output?.return_precautions, "return_precautions", errors);
-  requireStringArray(output?.home_instructions, "home_instructions", errors);
-  requireStringArray(output?.allergies, "allergies", errors);
-  requireStringArray(output?.missing_information, "missing_information", errors);
-  assertValidAgentOutput(AGENT_NAME, errors);
+  if (!item || typeof item !== "object" || Array.isArray(item)) {
+    return item;
+  }
 
-  return output;
+  const preferredFields = [
+    "name",
+    "dose",
+    "timing",
+    "instructions",
+    "instruction",
+    "task",
+    "timeframe",
+    "symptom",
+    "action",
+    "detail",
+    "reason"
+  ];
+  const values = preferredFields
+    .map((field) => item[field])
+    .filter((value) => typeof value === "string" && value.trim())
+    .map((value) => value.trim());
+
+  return values.length ? values.join(" ") : item;
 }
 
-export async function runIntakeAgent({ dischargeText, geminiJsonGenerator }) {
-  const output = await geminiJsonGenerator({
+function normalizeStringArray(value) {
+  return Array.isArray(value) ? value.map(stringifyIntakeItem) : value;
+}
+
+function normalizeIntakeOutput(output) {
+  if (!output || typeof output !== "object" || Array.isArray(output)) {
+    return output;
+  }
+
+  return {
+    ...output,
+    medications: normalizeStringArray(output.medications),
+    follow_ups: normalizeStringArray(output.follow_ups),
+    return_precautions: normalizeStringArray(output.return_precautions),
+    home_instructions: normalizeStringArray(output.home_instructions),
+    allergies: normalizeStringArray(output.allergies),
+    missing_information: normalizeStringArray(output.missing_information)
+  };
+}
+
+function validateIntakeOutput(output) {
+  const normalizedOutput = normalizeIntakeOutput(output);
+  const errors = [];
+
+  requireString(normalizedOutput?.diagnosis, "diagnosis", errors);
+  requireStringArray(normalizedOutput?.medications, "medications", errors);
+  requireStringArray(normalizedOutput?.follow_ups, "follow_ups", errors);
+  requireStringArray(normalizedOutput?.return_precautions, "return_precautions", errors);
+  requireStringArray(normalizedOutput?.home_instructions, "home_instructions", errors);
+  requireStringArray(normalizedOutput?.allergies, "allergies", errors);
+  requireStringArray(normalizedOutput?.missing_information, "missing_information", errors);
+  assertValidAgentOutput(AGENT_NAME, errors);
+
+  return normalizedOutput;
+}
+
+export async function runIntakeAgent({ dischargeText, aiJsonGenerator }) {
+  const output = await aiJsonGenerator({
     prompt: buildPrompt(dischargeText)
   });
 

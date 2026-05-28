@@ -60,8 +60,8 @@ function validateEducationOutput(output) {
   return output;
 }
 
-export async function runEducationAgent({ intake, summary, medications, redFlags, geminiJsonGenerator }) {
-  const output = await geminiJsonGenerator({
+export async function runEducationAgent({ intake, summary, medications, redFlags, aiJsonGenerator }) {
+  const output = await aiJsonGenerator({
     prompt: buildPrompt({ intake, summary, medications, redFlags })
   });
 

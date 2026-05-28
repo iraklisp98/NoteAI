@@ -28,34 +28,34 @@ test("emergency symptoms always escalate", async () => {
   assert.match(result.answer, /seek emergency care/i);
 });
 
-test("non-emergency medication questions require a live Gemini answer", async () => {
+test("non-emergency medication questions require a live AI answer", async () => {
   await assert.rejects(
     () =>
       generateChatResponse({
         question: "Can I take ibuprofen with these medications?",
         recoveryPlan: samplePlan,
-        geminiChatGenerator: async () => {
+        aiChatGenerator: async () => {
           throw new Error("force fallback");
         },
       }),
     (error) => {
       assert.equal(error.code, "CHAT_AGENT_GENERATION_FAILED");
-      assert.match(error.message, /live Gemini/i);
+      assert.match(error.message, /live AI/i);
       return true;
     }
   );
 });
 
-test("Gemini conversation answers are grounded in the recovery plan", async () => {
+test("AI conversation answers are grounded in the recovery plan", async () => {
   const calls = [];
   const result = await generateChatResponse({
     question: "Can I take ibuprofen with these medications?",
     recoveryPlan: samplePlan,
-    geminiChatGenerator: async ({ prompt }) => {
+    aiChatGenerator: async ({ prompt }) => {
       calls.push(prompt);
       return {
         answer:
-          "Gemini checked the recovery plan medications and cannot confirm ibuprofen is safe. The plan lists amoxicillin/clavulanate, albuterol, and acetaminophen, so ask your doctor or pharmacist before taking ibuprofen.",
+          "The AI checked the recovery plan medications and cannot confirm ibuprofen is safe. The plan lists amoxicillin/clavulanate, albuterol, and acetaminophen, so ask your doctor or pharmacist before taking ibuprofen.",
         source: "Medication Timeline",
       };
     },
@@ -68,7 +68,7 @@ test("Gemini conversation answers are grounded in the recovery plan", async () =
   assert.match(calls[0], /Return only JSON/i);
   assert.equal(result.safetyLevel, "ask_doctor");
   assert.equal(result.source, "Medication Timeline");
-  assert.match(result.answer, /Gemini checked/i);
+  assert.match(result.answer, /AI checked/i);
 });
 
 test("chat route remains stable for malformed input", async () => {
@@ -80,7 +80,7 @@ test("chat route remains stable for malformed input", async () => {
   assert.match(response.body.answer, /ask a question/i);
 });
 
-test("chat route surfaces live Gemini failures for non-emergency questions", async () => {
+test("chat route surfaces live AI failures for non-emergency questions", async () => {
   const handler = createChatHandler({
     chatGenerator: async () => {
       throw new Error("offline");
@@ -95,7 +95,7 @@ test("chat route surfaces live Gemini failures for non-emergency questions", asy
 
   assert.equal(response.statusCode, 502);
   assert.equal(response.body.error, "CHAT_AGENT_GENERATION_FAILED");
-  assert.match(response.body.message, /live Gemini/i);
+  assert.match(response.body.message, /live AI/i);
 });
 
 test("chat route registers POST /api/chat", () => {

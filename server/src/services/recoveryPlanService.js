@@ -9,7 +9,7 @@ import { runIntakeAgent } from "../agents/intakeAgent.js";
 import { runMedicationAgent } from "../agents/medicationAgent.js";
 import { runRiskAgent } from "../agents/riskAgent.js";
 import { runSummaryAgent } from "../agents/summaryAgent.js";
-import { generateJsonWithGemini } from "./geminiClient.js";
+import { generateJsonWithConfiguredProvider, getConfiguredAIProvider } from "./aiProvider.js";
 import { validateRecoveryPlan } from "./recoveryPlanValidator.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -41,17 +41,17 @@ async function loadAgentProgress() {
   }));
 }
 
-async function runRecoveryAgentPipeline({ dischargeText, geminiJsonGenerator }) {
-  const intake = await runIntakeAgent({ dischargeText, geminiJsonGenerator });
-  const summary = await runSummaryAgent({ dischargeText, intake, geminiJsonGenerator });
-  const medication = await runMedicationAgent({ intake, geminiJsonGenerator });
-  const risk = await runRiskAgent({ intake, geminiJsonGenerator });
+async function runRecoveryAgentPipeline({ dischargeText, aiJsonGenerator }) {
+  const intake = await runIntakeAgent({ dischargeText, aiJsonGenerator });
+  const summary = await runSummaryAgent({ dischargeText, intake, aiJsonGenerator });
+  const medication = await runMedicationAgent({ intake, aiJsonGenerator });
+  const risk = await runRiskAgent({ intake, aiJsonGenerator });
   const education = await runEducationAgent({
     intake,
     summary,
     medications: medication.medications,
     redFlags: risk.red_flags,
-    geminiJsonGenerator
+    aiJsonGenerator
   });
 
   return composeRecoveryPlan({ intake, summary, medication, risk, education });
@@ -60,8 +60,11 @@ async function runRecoveryAgentPipeline({ dischargeText, geminiJsonGenerator }) 
 export async function buildRecoveryPlan({
   text = "",
   useSample = false,
-  geminiJsonGenerator = generateJsonWithGemini
+  aiProvider = getConfiguredAIProvider(),
+  aiJsonGenerator,
+  geminiJsonGenerator
 } = {}) {
+  const jsonGenerator = aiJsonGenerator || geminiJsonGenerator || generateJsonWithConfiguredProvider;
   const providedText = typeof text === "string" ? text.trim() : "";
   const trimmedText = providedText || (useSample ? (await readFile(sampleNotePath, "utf8")).trim() : "");
 
@@ -76,7 +79,7 @@ export async function buildRecoveryPlan({
   try {
     plan = await runRecoveryAgentPipeline({
       dischargeText: trimmedText,
-      geminiJsonGenerator
+      aiJsonGenerator: jsonGenerator
     });
   } catch (error) {
     if (error instanceof AgentOutputValidationError) {
@@ -89,7 +92,7 @@ export async function buildRecoveryPlan({
 
     throw new RecoveryPlanGenerationError(
       "RECOVERY_AGENT_GENERATION_FAILED",
-      `The live Gemini recovery-plan agents could not generate a plan. ${error instanceof Error ? error.message : "Unknown error."}`,
+      `The live AI recovery-plan agents could not generate a plan. ${error instanceof Error ? error.message : "Unknown error."}`,
       error
     );
   }
@@ -99,7 +102,7 @@ export async function buildRecoveryPlan({
   if (!validation.valid) {
     throw new RecoveryPlanGenerationError(
       "RECOVERY_PLAN_INVALID",
-      `The live Gemini recovery-plan agents returned an invalid plan. ${validation.errors.join("; ")}`
+      `The live AI recovery-plan agents returned an invalid plan. ${validation.errors.join("; ")}`
     );
   }
 
@@ -107,6 +110,6 @@ export async function buildRecoveryPlan({
     plan,
     agents: await loadAgentProgress(),
     warnings: [],
-    source: "gemini"
+    source: aiProvider
   };
 }

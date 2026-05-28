@@ -40,5 +40,5 @@ test("POST /api/chat requires the live Conversation Agent for non-emergency ques
 
   assert.equal(response.status, 502);
   assert.equal(response.body.error, "CHAT_AGENT_GENERATION_FAILED");
-  assert.match(response.body.message, /live Gemini/i);
+  assert.match(response.body.message, /live AI/i);
 });

@@ -85,7 +85,7 @@ test("unknown routes return 404 JSON", async () => {
   assert.equal(response.body.error, "NOT_FOUND");
 });
 
-test("POST /api/recovery-plan surfaces live Gemini failures instead of returning a local plan", async () => {
+test("POST /api/recovery-plan surfaces live AI failures instead of returning a local plan", async () => {
   const response = await postJson(createServer(), "/api/recovery-plan", {
     text: [
       "Discharge diagnosis: Acute bronchitis",
@@ -97,10 +97,10 @@ test("POST /api/recovery-plan surfaces live Gemini failures instead of returning
 
   assert.equal(response.status, 502);
   assert.equal(response.body.error, "RECOVERY_AGENT_GENERATION_FAILED");
-  assert.match(response.body.message, /live Gemini/i);
+  assert.match(response.body.message, /live AI/i);
 });
 
-test("POST /api/recovery-plan requires live Gemini for a readable uploaded PDF", async () => {
+test("POST /api/recovery-plan requires live AI for a readable uploaded PDF", async () => {
   const response = await postMultipart(createServer(), "/api/recovery-plan", [
     {
       name: "file",
@@ -118,7 +118,7 @@ test("POST /api/recovery-plan requires live Gemini for a readable uploaded PDF",
   assert.equal(response.status, 502);
   assert.notEqual(response.body.error, "PDF_TEXT_EXTRACTION_FAILED");
   assert.equal(response.body.error, "RECOVERY_AGENT_GENERATION_FAILED");
-  assert.match(response.body.message, /live Gemini/i);
+  assert.match(response.body.message, /live AI/i);
 });
 
 test("POST /api/recovery-plan returns fallback-friendly error when PDF text extraction fails", async () => {

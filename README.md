@@ -50,7 +50,7 @@ Expected API surfaces:
 - `POST /api/recovery-plan`
 - `POST /api/chat`
 
-Secrets must be provided through environment variables. Do not commit API keys. The intended AI provider is Gemini unless the team explicitly switches provider.
+Secrets must be provided through environment variables. Do not commit API keys. Set `AI_PROVIDER=openai` with `OPENAI_API_KEY` to run the agents through OpenAI, or `AI_PROVIDER=gemini` with `GEMINI_API_KEY` to use Gemini.
 
 ## Recovery Plan Contract
 
@@ -71,7 +71,7 @@ Dashboard rendering and chat grounding must use structured JSON, not free-form m
 - Record every meaningful AI-assisted repo change in `ai.log`.
 - Keep prompts server-side.
 - Validate model output before rendering it.
-- Include deterministic fallback behavior so the demo still works if live AI, PDF parsing, or JSON formatting fails.
+- Surface live AI failures clearly so the demo does not silently switch to a mock recovery plan.
 
 ## Safety Boundaries
 

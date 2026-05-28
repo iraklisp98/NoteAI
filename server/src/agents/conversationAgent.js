@@ -1,5 +1,5 @@
 import { classifyChatSafety } from "../safety/chatSafetyClassifier.js";
-import { generateJsonWithGemini } from "../services/geminiClient.js";
+import { generateJsonWithConfiguredProvider } from "../services/aiProvider.js";
 
 const EMERGENCY_SENTENCE =
   "If you have chest pain, severe trouble breathing, confusion, blue lips, fainting, or oxygen below 90%, seek emergency care.";
@@ -16,8 +16,10 @@ export class ChatGenerationError extends Error {
 export async function generateChatResponse({
   question,
   recoveryPlan,
-  geminiChatGenerator = generateJsonWithGemini,
+  aiChatGenerator,
+  geminiChatGenerator,
 } = {}) {
+  const chatGenerator = aiChatGenerator || geminiChatGenerator || generateJsonWithConfiguredProvider;
   const safety = classifyChatSafety(question);
   const plan = normalizePlan(recoveryPlan);
 
@@ -39,7 +41,7 @@ export async function generateChatResponse({
 
   if (safety.category !== "empty") {
     try {
-      const modelPayload = await geminiChatGenerator({
+      const modelPayload = await chatGenerator({
         prompt: buildConversationPrompt({ question, plan, safety }),
       });
       const safePayload = normalizeModelPayload(modelPayload, safety);
@@ -50,7 +52,7 @@ export async function generateChatResponse({
 
       throw new ChatGenerationError(
         "CHAT_AGENT_OUTPUT_INVALID",
-        "The live Gemini Conversation Agent returned an unsafe or invalid answer."
+        "The live AI Conversation Agent returned an unsafe or invalid answer."
       );
     } catch (error) {
       if (error instanceof ChatGenerationError) {
@@ -59,7 +61,7 @@ export async function generateChatResponse({
 
       throw new ChatGenerationError(
         "CHAT_AGENT_GENERATION_FAILED",
-        "The live Gemini Conversation Agent could not answer this question.",
+        "The live AI Conversation Agent could not answer this question.",
         error
       );
     }
@@ -67,7 +69,7 @@ export async function generateChatResponse({
 
   throw new ChatGenerationError(
     "CHAT_AGENT_GENERATION_FAILED",
-    "The live Gemini Conversation Agent could not answer this question."
+    "The live AI Conversation Agent could not answer this question."
   );
 }
 
