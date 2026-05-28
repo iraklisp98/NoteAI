@@ -42,3 +42,8 @@ Timestamp: 2026-05-28 13:05 Europe/Athens
 Model used: GPT-5 Codex
 What changed: Implemented RecoveryDashboard rendering for the shared RecoveryPlan contract and tightened dashboard tests for repeated fixture values.
 For what reason: Complete the Person 1 dashboard rendering TDD slice using shared sample recovery data.
+
+Timestamp: 2026-05-28 13:20 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Added AgentProgress and wired the sample recovery-plan action to show shared agent stages during a pending request, then render the returned dashboard plan.
+For what reason: Complete the Person 1 agent progress loading-state TDD slice.
