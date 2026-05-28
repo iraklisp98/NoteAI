@@ -3,3 +3,7 @@ git add ai.log
 ---
 
 commit and push
+
+---
+
+add and commit all the unstaged changes
