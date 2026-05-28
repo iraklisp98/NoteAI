@@ -1,0 +1,17 @@
+add, commit and push it
+
+---
+
+hello there. I am the person 1 in this project. my task is to complete the React patient app only. i want you to start by reviewing the repo in order to understand the workflow and the final expected outcome. i want you to work exactly how it is presented in the "prd.md", "architecture.md" and "AGENTS.md" files. for our workflow read the "tasks.md" file in the person-1 folder. dont start implementing anything yet. just read and understand the workflow for now. is that clear?
+
+---
+
+you understand the way you are supposed to work form the other files?
+
+---
+
+create a new branch called PatientApp and push it
+
+---
+
+as we need to code in a TDD start writing the tests first.

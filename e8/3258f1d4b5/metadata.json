@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "e83258f1d4b5",
+  "strategy": "manual-commit",
+  "branch": "PatientApp",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "ai.log",
+    "apps/patient/package-lock.json",
+    "apps/patient/package.json",
+    "apps/patient/src/test/setup.js",
+    "apps/patient/tests/App.test.jsx",
+    "apps/patient/tests/RecoveryChat.test.jsx",
+    "apps/patient/tests/RecoveryDashboard.test.jsx",
+    "apps/patient/vitest.config.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/e8/3258f1d4b5/0/metadata.json",
+      "transcript": "/e8/3258f1d4b5/0/full.jsonl",
+      "content_hash": "/e8/3258f1d4b5/0/content_hash.txt",
+      "prompt": "/e8/3258f1d4b5/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 159515,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1953792,
+    "output_tokens": 10822,
+    "api_call_count": 40
+  }
+}
