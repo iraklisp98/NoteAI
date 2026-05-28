@@ -94,7 +94,7 @@ export default function App() {
       return;
     }
 
-    setLoginError('Use admin or admin@careflow.local with password admin for the demo.');
+    setLoginError('Invalid username or password');
   }
 
   if (!isSignedIn) {

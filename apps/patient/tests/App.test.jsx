@@ -77,7 +77,7 @@ describe('CAREFLOW patient app', () => {
     await user.type(screen.getByLabelText(/password/i), 'wrong');
     await user.click(screen.getByRole('button', { name: /sign in to careflow/i }));
 
-    expect(screen.getByRole('alert')).toHaveTextContent(/use admin or admin@careflow.local with password admin/i);
+    expect(screen.getByRole('alert')).toHaveTextContent(/invalid username or password/i);
     expect(screen.queryByLabelText(/upload discharge pdf/i)).not.toBeInTheDocument();
   });
 

@@ -92,3 +92,8 @@ Timestamp: 2026-05-28T15:29:17+03:00
 Model used: GPT-5 Codex
 What changed: Removed visible demo credential placeholders from the login fields and added a test that the fields render blank.
 For what reason: Keep the login page clean while preserving the default admin/admin demo account.
+
+Timestamp: 2026-05-28T15:33:42+03:00
+Model used: GPT-5 Codex
+What changed: Changed the invalid login message to "Invalid username or password" and updated the login test expectation.
+For what reason: Avoid exposing demo credentials in the login error state.
