@@ -1,0 +1,17 @@
+iraklisp98@gmail.com
+
+---
+
+has anyone done anything regarding person d tasks?
+
+---
+
+can we takeover the person d and implement it? i already did git checkout -b pitch
+
+---
+
+we havent touched anything related to person C right? for potential conflicts
+
+---
+
+how to test what you did with one command

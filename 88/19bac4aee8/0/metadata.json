@@ -1,0 +1,88 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "8819bac4aee8",
+  "session_id": "019e6e8d-32bc-74e0-a531-e2acdbf5fc1f",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-28T12:46:18.198836334Z",
+  "branch": "pitch",
+  "checkpoints_count": 3,
+  "files_touched": [
+    ".gitignore",
+    "ai.log",
+    "apps/pitch/index.html",
+    "apps/pitch/package-lock.json",
+    "apps/pitch/package.json",
+    "apps/pitch/src/PitchApp.jsx",
+    "apps/pitch/src/content/pitchCopy.js",
+    "apps/pitch/src/main.jsx",
+    "apps/pitch/src/styles.css",
+    "apps/pitch/src/test/setup.js",
+    "apps/pitch/tests/PitchApp.test.jsx",
+    "apps/pitch/tests/demoDocs.test.js",
+    "apps/pitch/vitest.config.js",
+    "docs/team/person-4-pitch-demo/android-future.md",
+    "docs/team/person-4-pitch-demo/demo-script.md",
+    "docs/team/person-4-pitch-demo/insurance-story.md",
+    "docs/team/person-4-pitch-demo/rehearsal-checklist.md"
+  ],
+  "agent": "Codex",
+  "model": "gpt-5.5",
+  "turn_id": "995dbd3491e8",
+  "checkpoint_transcript_start": 103,
+  "transcript_lines_at_start": 103,
+  "token_usage": {
+    "input_tokens": 152576,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 2158208,
+    "output_tokens": 12874,
+    "api_call_count": 51
+  },
+  "session_metrics": {
+    "turn_count": 8
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-28T12:46:18.178550329Z",
+    "agent_lines": 4053,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 4053,
+    "total_lines_changed": 4053,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 216,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_removed_per_file": {
+        ".opencode/plugins/entire.ts": 216
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 4053,
+      "agent_lines_removed": 216
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 4053,
+      "agent_lines_removed": 216
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 4053,
+      "agent_lines_removed": 216
+    }
+  ]
+}

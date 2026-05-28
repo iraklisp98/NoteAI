@@ -1,0 +1,41 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "8819bac4aee8",
+  "strategy": "manual-commit",
+  "branch": "pitch",
+  "checkpoints_count": 3,
+  "files_touched": [
+    ".gitignore",
+    "ai.log",
+    "apps/pitch/index.html",
+    "apps/pitch/package-lock.json",
+    "apps/pitch/package.json",
+    "apps/pitch/src/PitchApp.jsx",
+    "apps/pitch/src/content/pitchCopy.js",
+    "apps/pitch/src/main.jsx",
+    "apps/pitch/src/styles.css",
+    "apps/pitch/src/test/setup.js",
+    "apps/pitch/tests/PitchApp.test.jsx",
+    "apps/pitch/tests/demoDocs.test.js",
+    "apps/pitch/vitest.config.js",
+    "docs/team/person-4-pitch-demo/android-future.md",
+    "docs/team/person-4-pitch-demo/demo-script.md",
+    "docs/team/person-4-pitch-demo/insurance-story.md",
+    "docs/team/person-4-pitch-demo/rehearsal-checklist.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/88/19bac4aee8/0/metadata.json",
+      "transcript": "/88/19bac4aee8/0/full.jsonl",
+      "content_hash": "/88/19bac4aee8/0/content_hash.txt",
+      "prompt": "/88/19bac4aee8/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 152576,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 2158208,
+    "output_tokens": 12874,
+    "api_call_count": 51
+  }
+}
