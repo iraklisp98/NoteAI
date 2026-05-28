@@ -1,0 +1,14 @@
+Timestamp: 2026-05-28T11:10:12+03:00
+Model used: GPT-5 Codex
+What changed: Added mandatory AI change-log instructions to AGENTS.md, clarified Gemini API as the default AI provider, and created ai.log.
+For what reason: The team needs a consistent audit trail for every AI-assisted repo change during parallel hackathon development.
+
+Timestamp: 2026-05-28T11:12:02+03:00
+Model used: GPT-5 Codex
+What changed: Added shared contracts, sample fixtures, environment template, merge workflow docs, and placeholder ownership folders for patient app, backend, and pitch deck.
+For what reason: The team needs a stable TDD foundation so three people can work independently on separate branches and merge at planned breakpoints.
+
+Timestamp: 2026-05-28T11:13:49+03:00
+Model used: GPT-5 Codex
+What changed: Replaced stale OpenAI references with Gemini API references in AGENTS.md, architecture.md, and Person 2 backend tasks.
+For what reason: The project provider decision changed to Gemini, so the shared foundation must point every teammate at the same AI integration target.

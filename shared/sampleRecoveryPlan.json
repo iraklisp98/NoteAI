@@ -1,0 +1,90 @@
+{
+  "summary": {
+    "title": "Recovering at home after pneumonia",
+    "what_happened": "Maria was treated in the hospital for community-acquired pneumonia, a lung infection. Her oxygen levels improved after antibiotics and breathing treatments, and she is stable enough to continue recovery at home.",
+    "recovery_goal": "Finish the antibiotic course, use breathing medicine only as directed, monitor symptoms closely, and follow up with primary care in 3-5 days."
+  },
+  "today": [
+    {
+      "task": "Start or continue amoxicillin/clavulanate exactly as prescribed.",
+      "why_it_matters": "Finishing the antibiotic course helps treat the pneumonia and lowers the chance of symptoms returning.",
+      "source": "Discharge medications"
+    },
+    {
+      "task": "Use the albuterol inhaler only if wheezing or shortness of breath occurs.",
+      "why_it_matters": "The inhaler is for breathing symptoms and should be used according to the discharge instructions.",
+      "source": "Discharge medications"
+    },
+    {
+      "task": "Rest, drink fluids, and avoid smoking or secondhand smoke.",
+      "why_it_matters": "These steps support lung recovery after pneumonia.",
+      "source": "Home instructions"
+    }
+  ],
+  "medications": [
+    {
+      "name": "Amoxicillin/clavulanate",
+      "dose": "875/125 mg",
+      "timing": "By mouth twice daily for 5 days",
+      "purpose": "Antibiotic for pneumonia",
+      "instructions": "Take exactly as prescribed and finish the full course even if feeling better.",
+      "caution": "Call the clinician for rash, severe diarrhea, or inability to keep fluids down."
+    },
+    {
+      "name": "Albuterol inhaler",
+      "dose": "2 puffs",
+      "timing": "Every 4-6 hours as needed",
+      "purpose": "Helps with wheezing or shortness of breath",
+      "instructions": "Use only as directed for breathing symptoms.",
+      "caution": "Seek urgent help for severe trouble breathing, blue lips, confusion, fainting, or oxygen below 90%."
+    },
+    {
+      "name": "Acetaminophen",
+      "dose": "500 mg",
+      "timing": "By mouth every 6 hours as needed",
+      "purpose": "Fever or discomfort",
+      "instructions": "Do not exceed 3,000 mg per day.",
+      "caution": "Ask a doctor or pharmacist before combining with other products that may contain acetaminophen."
+    }
+  ],
+  "red_flags": [
+    {
+      "symptom": "Severe trouble breathing, chest pain, blue lips, confusion, fainting, or oxygen below 90%",
+      "action": "Seek emergency care now.",
+      "urgency": "emergency_now"
+    },
+    {
+      "symptom": "Fever above 101.5 F, worsening cough, inability to keep fluids down, rash, severe diarrhea, or symptoms not improving after 48-72 hours",
+      "action": "Call the clinician today.",
+      "urgency": "call_today"
+    },
+    {
+      "symptom": "Mild tiredness or cough that is gradually improving",
+      "action": "Monitor symptoms and mention them at follow-up if they persist.",
+      "urgency": "monitor"
+    }
+  ],
+  "follow_ups": [
+    {
+      "task": "Schedule or attend primary care follow-up.",
+      "timeframe": "In 3-5 days",
+      "reason": "To confirm pneumonia symptoms are improving and review recovery."
+    },
+    {
+      "task": "Ask whether repeat chest imaging is needed.",
+      "timeframe": "At follow-up or sooner if symptoms worsen",
+      "reason": "The discharge note says repeat imaging may be considered if symptoms do not improve."
+    }
+  ],
+  "questions_for_clinician": [
+    "Should Maria avoid any over-the-counter medicines while taking these prescriptions?",
+    "What should she do if fever returns after starting antibiotics?",
+    "Does she need repeat chest imaging after recovery?",
+    "When can she return to normal activity?"
+  ],
+  "missing_information": [
+    "No pharmacy pickup details were included.",
+    "No baseline kidney, liver, or stomach bleeding history was included for over-the-counter medication decisions."
+  ],
+  "disclaimer": "CAREFLOW is a prototype that helps explain and organize discharge instructions. It is not a doctor and does not replace medical advice. For emergencies, call local emergency services. For medication changes or medical decisions, contact your doctor or pharmacist."
+}

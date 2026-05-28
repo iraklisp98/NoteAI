@@ -2,7 +2,7 @@
 
 ## Ownership
 
-You own the Node.js server, OpenAI integration, PDF extraction, agent pipeline, validation, and safety filters.
+You own the Node.js server, Gemini API integration, PDF extraction, agent pipeline, validation, and safety filters.
 
 Primary folder:
 
@@ -62,7 +62,7 @@ server/
 │   │   ├── educationAgent.js
 │   │   └── composeRecoveryPlan.js
 │   ├── services/
-│   │   ├── openaiClient.js
+│   │   ├── geminiClient.js
 │   │   ├── pdfTextExtractor.js
 │   │   └── recoveryPlanValidator.js
 │   ├── safety/
@@ -126,7 +126,7 @@ buildRecoveryPlan(inputText)
 
 Each function should be independently testable.
 
-Use OpenAI calls during the real path. Keep a deterministic fallback path for demo reliability.
+Use Gemini API calls during the real path. Keep a deterministic fallback path for demo reliability.
 
 ---
 
@@ -184,7 +184,7 @@ Return valid fallback recovery plan from `/api/recovery-plan`.
 
 ### Hour 5
 
-OpenAI path works for sample pneumonia note.
+Gemini path works for sample pneumonia note.
 
 ### Hour 8
 
@@ -196,10 +196,9 @@ Freeze backend features. Only reliability fixes.
 
 - Server runs locally
 - PDF or text input is accepted
-- OpenAI pipeline returns valid recovery plan
+- Gemini pipeline returns valid recovery plan
 - fallback recovery plan exists
 - chat endpoint answers ibuprofen safely
 - emergency symptoms escalate
 - no API keys committed
 - Person 2 tests pass
-

@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Document Reader",
+    "summary": "Reading discharge PDF or pasted text."
+  },
+  {
+    "name": "Intake Agent",
+    "summary": "Extracting diagnosis, medications, follow-ups, home instructions, and return precautions."
+  },
+  {
+    "name": "Summary Agent",
+    "summary": "Translating the hospital stay into patient-friendly language."
+  },
+  {
+    "name": "Medication Agent",
+    "summary": "Building the medication timeline and highlighting missing details."
+  },
+  {
+    "name": "Risk Agent",
+    "summary": "Classifying red flags into emergency, call-today, and monitor guidance."
+  },
+  {
+    "name": "Education Agent",
+    "summary": "Turning recovery instructions into practical patient tasks."
+  },
+  {
+    "name": "Conversation Agent",
+    "summary": "Preparing grounded recovery chat with safety boundaries."
+  }
+]

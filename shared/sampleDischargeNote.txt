@@ -1,0 +1,23 @@
+Patient: Maria Lopez, 67-year-old female
+Admission reason: Shortness of breath, fever, and productive cough
+Discharge diagnosis: Community-acquired pneumonia, improving
+
+Hospital course:
+Patient was treated with IV antibiotics and breathing treatments. Oxygen levels improved and she is stable for discharge home. Chest X-ray showed right lower-lobe pneumonia. Blood cultures showed no growth.
+
+Discharge medications:
+1. Amoxicillin/clavulanate 875/125 mg by mouth twice daily for 5 days.
+2. Albuterol inhaler: 2 puffs every 4-6 hours as needed for wheezing or shortness of breath.
+3. Acetaminophen 500 mg by mouth every 6 hours as needed for fever or discomfort. Do not exceed 3,000 mg per day.
+
+Home instructions:
+Rest, drink fluids, and avoid smoking or secondhand smoke. Use the inhaler only as directed. Finish the full antibiotic course even if feeling better.
+
+Follow-up:
+See primary care clinician in 3-5 days. Repeat chest imaging may be considered if symptoms do not improve.
+
+Return precautions:
+Seek emergency care for severe trouble breathing, chest pain, blue lips, confusion, fainting, or oxygen level below 90% if using a home pulse oximeter. Call clinician for fever above 101.5 F, worsening cough, inability to keep fluids down, rash, severe diarrhea, or symptoms not improving after 48-72 hours.
+
+Allergies:
+No known drug allergies listed.

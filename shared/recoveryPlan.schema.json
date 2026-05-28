@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careflow.local/schemas/recoveryPlan.schema.json",
+  "title": "RecoveryPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "summary",
+    "today",
+    "medications",
+    "red_flags",
+    "follow_ups",
+    "questions_for_clinician",
+    "missing_information",
+    "disclaimer"
+  ],
+  "properties": {
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "what_happened", "recovery_goal"],
+      "properties": {
+        "title": { "type": "string" },
+        "what_happened": { "type": "string" },
+        "recovery_goal": { "type": "string" }
+      }
+    },
+    "today": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["task", "why_it_matters", "source"],
+        "properties": {
+          "task": { "type": "string" },
+          "why_it_matters": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "medications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "dose", "timing", "purpose", "instructions", "caution"],
+        "properties": {
+          "name": { "type": "string" },
+          "dose": { "type": "string" },
+          "timing": { "type": "string" },
+          "purpose": { "type": "string" },
+          "instructions": { "type": "string" },
+          "caution": { "type": "string" }
+        }
+      }
+    },
+    "red_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["symptom", "action", "urgency"],
+        "properties": {
+          "symptom": { "type": "string" },
+          "action": { "type": "string" },
+          "urgency": {
+            "type": "string",
+            "enum": ["emergency_now", "call_today", "monitor"]
+          }
+        }
+      }
+    },
+    "follow_ups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["task", "timeframe", "reason"],
+        "properties": {
+          "task": { "type": "string" },
+          "timeframe": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "questions_for_clinician": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "missing_information": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "disclaimer": { "type": "string" }
+  }
+}

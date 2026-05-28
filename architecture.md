@@ -2,7 +2,7 @@
 
 ## Goal
 
-CAREFLOW is a 10-hour TDD hackathon MVP. It converts a pneumonia discharge PDF into a patient-friendly recovery dashboard using a simple OpenAI-powered agent pipeline.
+CAREFLOW is a 10-hour TDD hackathon MVP. It converts a pneumonia discharge PDF into a patient-friendly recovery dashboard using a simple Gemini-powered agent pipeline.
 
 The architecture is optimized for:
 
@@ -321,7 +321,7 @@ After this point, no one changes shared contracts without team approval.
 Expected state:
 
 - frontend renders `sampleRecoveryPlan.json`
-- backend returns valid sample JSON without OpenAI if needed
+- backend returns valid sample JSON without Gemini if needed
 - pitch deck has rough slide structure
 
 Purpose:
@@ -332,7 +332,7 @@ Purpose:
 
 Expected state:
 
-- backend can call OpenAI
+- backend can call Gemini
 - backend has fallback plan if model output fails
 - frontend can call `/api/recovery-plan`
 - chat endpoint returns safe answer for ibuprofen question
@@ -400,13 +400,13 @@ CAREFLOW is a prototype that helps explain and organize discharge instructions. 
 Primary path:
 
 ```text
-PDF upload -> extract text -> OpenAI pipeline -> dashboard -> chat
+PDF upload -> extract text -> Gemini pipeline -> dashboard -> chat
 ```
 
 Fallback path 1:
 
 ```text
-paste sample note -> OpenAI pipeline -> dashboard -> chat
+paste sample note -> Gemini pipeline -> dashboard -> chat
 ```
 
 Fallback path 2:
@@ -432,4 +432,3 @@ The architecture is implemented enough for demo when:
 - disclaimer is visible
 - tests pass for all owned areas
 - no API keys are committed
-

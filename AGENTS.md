@@ -19,13 +19,36 @@ The end user is the patient. The buyer story is insurance companies that want fe
 - Product name: CAREFLOW
 - Primary demo condition: pneumonia
 - Input: real PDF upload, with paste/sample fallback
-- AI provider: OpenAI
+- AI provider: Gemini API unless the team explicitly switches provider
 - App stack: React + Node.js
 - Agent style: simple pipeline first
 - Pitch deck: separate localhost page/app
 - Safety stance: prototype only, not medical advice
 
 If a decision does not improve the live demo, patient clarity, AI orchestration story, or insurance buyer story, cut it.
+
+---
+
+## Mandatory AI Change Log
+
+Every AI-assisted repo change must be recorded in `ai.log`.
+
+Append one entry per meaningful change using this template:
+
+```text
+Timestamp:
+Model used:
+What changed:
+For what reason:
+```
+
+Rules:
+
+- Update `ai.log` in the same work session as the repo change.
+- Keep entries short and factual.
+- Include documentation-only changes, code changes, config changes, generated assets, and test changes.
+- Do not include secrets, API keys, private health data, or copied prompt contents that may contain sensitive data.
+- If multiple files changed for the same reason, one entry is enough.
 
 ---
 
@@ -356,7 +379,7 @@ If uploaded PDF text extraction fails, show:
 
 ---
 
-## OpenAI Requirements
+## Gemini API Requirements
 
 Use environment variables for secrets.
 
@@ -402,7 +425,7 @@ Done when:
 Owns:
 
 - Node server
-- OpenAI API integration
+- Gemini API integration
 - PDF text extraction
 - agent prompts
 - JSON validation
@@ -553,4 +576,3 @@ The MVP is done when:
 - insurance buyer story is clear
 - future Android plan is included
 - no API keys or local metadata are committed
-
