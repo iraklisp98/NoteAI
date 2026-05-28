@@ -45,6 +45,7 @@ For what reason: Complete the Person 1 dashboard rendering TDD slice using share
 
 Timestamp: 2026-05-28 13:20 Europe/Athens
 Model used: GPT-5 Codex
+<<<<<<< HEAD
 What changed: Added AgentProgress and wired the sample recovery-plan action to show shared agent stages during a pending request, then render the returned dashboard plan.
 For what reason: Complete the Person 1 agent progress loading-state TDD slice.
 
@@ -97,3 +98,12 @@ Timestamp: 2026-05-28T15:33:42+03:00
 Model used: GPT-5 Codex
 What changed: Changed the invalid login message to "Invalid username or password" and updated the login test expectation.
 For what reason: Avoid exposing demo credentials in the login error state.
+=======
+What changed: Added a small README commit workflow check note.
+For what reason: User requested a small README adjustment and git add/commit to verify commits.
+
+Timestamp: 2026-05-28T15:38:33+03:00
+Model used: GPT-5 Codex
+What changed: Added the Person 4 pitch deck app, pitch coverage tests, demo script, insurance story, Android future plan, rehearsal checklist, and Node/Vite generated-file ignores.
+For what reason: User asked to take over the Person 4 pitch/demo workstream on the pitch branch.
+>>>>>>> 9be80aa (feat: add pitch deck app)

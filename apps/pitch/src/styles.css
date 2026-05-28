@@ -1,0 +1,209 @@
+:root {
+  color: #17211d;
+  background: #f6f7f2;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    linear-gradient(180deg, rgba(233, 241, 235, 0.92), rgba(246, 247, 242, 0.98)),
+    url("https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1800&q=80");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.pitch-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 48px;
+}
+
+.hero {
+  min-height: 82vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 32px;
+  align-items: end;
+  padding: 64px 0 40px;
+}
+
+.hero-copy {
+  max-width: 760px;
+  color: #f8fff8;
+  text-shadow: 0 2px 20px rgba(10, 28, 22, 0.45);
+}
+
+.kicker,
+.eyebrow {
+  margin: 0 0 12px;
+  color: #0e6f5c;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hero .kicker {
+  color: #c8f5d6;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 840px;
+  margin-bottom: 18px;
+  font-size: clamp(2.6rem, 8vw, 6.8rem);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.hero-copy p:last-child {
+  max-width: 680px;
+  margin-bottom: 0;
+  font-size: 1.2rem;
+  line-height: 1.55;
+}
+
+.demo-rail {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 18px;
+  list-style-position: inside;
+  background: rgba(247, 250, 244, 0.94);
+  border: 1px solid rgba(23, 33, 29, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(15, 28, 20, 0.22);
+}
+
+.demo-rail li {
+  padding: 12px 14px;
+  color: #24342d;
+  background: #ffffff;
+  border: 1px solid #dfe8dd;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.slide-strip {
+  display: grid;
+  gap: 18px;
+}
+
+.slide {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 22px;
+  min-height: 320px;
+  padding: 26px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #dce4da;
+  border-radius: 8px;
+  box-shadow: 0 18px 50px rgba(41, 56, 44, 0.12);
+}
+
+.slide-marker {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 12px;
+  color: #0e6f5c;
+}
+
+.slide-marker svg {
+  width: 48px;
+  height: 48px;
+  padding: 10px;
+  background: #e8f5ed;
+  border-radius: 8px;
+}
+
+.slide-marker span {
+  color: #6c7a71;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.slide-body {
+  min-width: 0;
+}
+
+h2 {
+  margin-bottom: 14px;
+  color: #14251f;
+  font-size: clamp(1.8rem, 4vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.summary {
+  max-width: 860px;
+  margin-bottom: 22px;
+  color: #385048;
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
+ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+li {
+  line-height: 1.45;
+}
+
+.slide li {
+  color: #253a32;
+  font-size: 1rem;
+}
+
+@media (max-width: 840px) {
+  .pitch-shell {
+    width: min(100% - 20px, 720px);
+    padding-top: 12px;
+  }
+
+  .hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding: 48px 0 24px;
+  }
+
+  .hero-copy p:last-child {
+    font-size: 1rem;
+  }
+
+  .slide {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .slide-marker {
+    display: flex;
+    justify-content: space-between;
+  }
+}
