@@ -52,3 +52,8 @@ Timestamp: 2026-05-28T12:36:40+03:00
 Model used: GPT-5 Codex
 What changed: Resolved the backend merge conflict in ai.log and converted Person 3 chat/safety backend files from CommonJS to ES modules so they work with the backend package module type.
 For what reason: The backend and chat/safety branches needed to merge cleanly with all server tests passing before pushing main.
+
+Timestamp: 2026-05-28T13:01:04+03:00
+Model used: GPT-5 Codex
+What changed: Added a root README.md with CAREFLOW demo goals, project layout, backend commands, recovery-plan contract notes, development rules, and safety boundaries.
+For what reason: The repository needed a top-level README for project orientation.
