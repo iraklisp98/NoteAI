@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import { extractPdfText, PdfTextExtractionError } from "../src/services/pdfTextExtractor.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(__dirname, "../..");
 
 test("returns readable text from a plain text buffer fallback", async () => {
   const text = await extractPdfText(Buffer.from("Discharge diagnosis: pneumonia"));
@@ -33,4 +39,14 @@ test("throws a fallback-friendly error when PDF text cannot be extracted", async
       return true;
     }
   );
+});
+
+test("extracts requested details from the male pneumonia sample PDF", async () => {
+  const pdf = await readFile(path.join(repoRoot, "shared/sampleMalePneumoniaDischargeSummary.pdf"));
+  const text = await extractPdfText(pdf);
+
+  assert.match(text, /55-year-old male/i);
+  assert.match(text, /community-acquired pneumonia/i);
+  assert.match(text, /Discharge medications/i);
+  assert.match(text, /Follow-up/i);
 });

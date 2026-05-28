@@ -2,6 +2,13 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { AgentOutputValidationError } from "../agents/agentValidation.js";
+import { composeRecoveryPlan } from "../agents/composeRecoveryPlan.js";
+import { runEducationAgent } from "../agents/educationAgent.js";
+import { runIntakeAgent } from "../agents/intakeAgent.js";
+import { runMedicationAgent } from "../agents/medicationAgent.js";
+import { runRiskAgent } from "../agents/riskAgent.js";
+import { runSummaryAgent } from "../agents/summaryAgent.js";
 import { generateJsonWithGemini } from "./geminiClient.js";
 import { validateRecoveryPlan } from "./recoveryPlanValidator.js";
 
@@ -69,65 +76,20 @@ function mergeMissingInformation(plan, additions) {
   };
 }
 
-function buildRecoveryPlanPrompt(dischargeText) {
-  return `
-You are CAREFLOW's recovery-plan backend pipeline.
+async function runRecoveryAgentPipeline({ dischargeText, geminiJsonGenerator }) {
+  const intake = await runIntakeAgent({ dischargeText, geminiJsonGenerator });
+  const summary = await runSummaryAgent({ dischargeText, intake, geminiJsonGenerator });
+  const medication = await runMedicationAgent({ intake, geminiJsonGenerator });
+  const risk = await runRiskAgent({ intake, geminiJsonGenerator });
+  const education = await runEducationAgent({
+    intake,
+    summary,
+    medications: medication.medications,
+    redFlags: risk.red_flags,
+    geminiJsonGenerator
+  });
 
-Convert the discharge note into strict JSON matching this exact shape:
-{
-  "summary": {
-    "title": "",
-    "what_happened": "",
-    "recovery_goal": ""
-  },
-  "today": [
-    {
-      "task": "",
-      "why_it_matters": "",
-      "source": ""
-    }
-  ],
-  "medications": [
-    {
-      "name": "",
-      "dose": "",
-      "timing": "",
-      "purpose": "",
-      "instructions": "",
-      "caution": ""
-    }
-  ],
-  "red_flags": [
-    {
-      "symptom": "",
-      "action": "",
-      "urgency": "emergency_now | call_today | monitor"
-    }
-  ],
-  "follow_ups": [
-    {
-      "task": "",
-      "timeframe": "",
-      "reason": ""
-    }
-  ],
-  "questions_for_clinician": [],
-  "missing_information": [],
-  "disclaimer": ""
-}
-
-Rules:
-- Return JSON only.
-- Do not diagnose new conditions.
-- Do not change medication dose, timing, or duration.
-- Do not invent missing details.
-- Put missing or ambiguous details in missing_information.
-- Use patient-friendly language.
-- Include this disclaimer exactly: CAREFLOW is a prototype that helps explain and organize discharge instructions. It is not a doctor and does not replace medical advice. For emergencies, call local emergency services. For medication changes or medical decisions, contact your doctor or pharmacist.
-
-Discharge note:
-${dischargeText}
-`.trim();
+  return composeRecoveryPlan({ intake, summary, medication, risk, education });
 }
 
 export async function buildRecoveryPlan({
@@ -143,8 +105,9 @@ export async function buildRecoveryPlan({
     warnings.push("No discharge text was provided, so CAREFLOW returned the sample fallback recovery plan.");
   } else if (!useSample) {
     try {
-      const plan = await geminiJsonGenerator({
-        prompt: buildRecoveryPlanPrompt(trimmedText)
+      const plan = await runRecoveryAgentPipeline({
+        dischargeText: trimmedText,
+        geminiJsonGenerator
       });
       const validation = validateRecoveryPlan(plan);
 
@@ -159,11 +122,15 @@ export async function buildRecoveryPlan({
 
       warnings.push(`Gemini output was invalid, so CAREFLOW returned the sample fallback recovery plan. ${validation.errors.join("; ")}`);
     } catch (error) {
-      warnings.push(
-        `Gemini generation failed, so CAREFLOW returned the sample fallback recovery plan. ${
-          error instanceof Error ? error.message : "Unknown error."
-        }`
-      );
+      if (error instanceof AgentOutputValidationError) {
+        warnings.push(`Gemini output was invalid, so CAREFLOW returned the sample fallback recovery plan. ${error.message}`);
+      } else {
+        warnings.push(
+          `Gemini generation failed, so CAREFLOW returned the sample fallback recovery plan. ${
+            error instanceof Error ? error.message : "Unknown error."
+          }`
+        );
+      }
     }
   }
 
