@@ -1,0 +1,40 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "ad78bc61c790",
+  "session_id": "019e6db4-fca9-73f3-9a72-6bb081238af9",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-28T11:44:34.20597553Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "apps/patient/src/App.jsx",
+    "apps/patient/src/components/AgentProgress.jsx",
+    "apps/patient/src/components/RecoveryChat.jsx",
+    "apps/patient/src/components/RecoveryDashboard.jsx"
+  ],
+  "agent": "Codex",
+  "model": "gpt-5.5",
+  "turn_id": "f3468583eac7",
+  "token_usage": {
+    "input_tokens": 445040,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 11186176,
+    "output_tokens": 43737,
+    "api_call_count": 160
+  },
+  "session_metrics": {
+    "turn_count": 19
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-28T11:44:34.074709218Z",
+    "agent_lines": 4,
+    "agent_removed": 2,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 4,
+    "total_lines_changed": 6,
+    "agent_percentage": 100,
+    "metric_version": 2
+  }
+}

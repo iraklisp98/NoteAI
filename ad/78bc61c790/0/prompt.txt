@@ -1,0 +1,29 @@
+start working on the dashboard rendering
+
+---
+
+lets start with the agent progress loading state
+
+---
+
+start working on PDF/API fallbak error state
+
+---
+
+implement recovery chat API behavior
+
+---
+
+finish with UI polishing
+
+---
+
+how should the project run?
+
+---
+
+npm test
+
+---
+
+i run the programm in the local host but currently it shows a blank page
