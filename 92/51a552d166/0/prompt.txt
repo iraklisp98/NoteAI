@@ -1,0 +1,17 @@
+curl -fsSL https://entire.io/install.sh | bash
+
+---
+
+entire enable
+
+---
+
+review the repo in order to understand the project.
+
+---
+
+run git pull
+
+---
+
+i want to check if the entire.io is working correctly. add a space in the end of the prd.md file in order to commit it. dont change anything else.
