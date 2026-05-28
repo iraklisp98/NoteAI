@@ -132,3 +132,8 @@ Timestamp: 2026-05-28T19:12:52+03:00
 Model used: GPT-5 Codex
 What changed: Replaced the committed API key in .env.example with placeholder values and added a regression test that blocks real-looking API keys in the template.
 For what reason: User requested removing the API key from the repository example environment file.
+
+Timestamp: 2026-05-28T19:18:03+03:00
+Model used: GPT-5 Codex
+What changed: Rewrote local Git history with git-filter-repo to replace committed API-key patterns with placeholders and removed replacement refs.
+For what reason: User requested purging the API key from repository history as if it had never existed.
