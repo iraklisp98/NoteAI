@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import agentProgress from '../../../shared/agentProgress.json';
+import sampleRecoveryPlan from '../../../shared/sampleRecoveryPlan.json';
+import sampleDischargeNote from '../../../shared/sampleDischargeNote.txt?raw';
 import AgentProgress from './components/AgentProgress.jsx';
 import RecoveryDashboard from './components/RecoveryDashboard.jsx';
 import RecoveryChat from './components/RecoveryChat.jsx';
@@ -11,8 +13,10 @@ export default function App() {
   const [plan, setPlan] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [dischargeText, setDischargeText] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  async function requestRecoveryPlan(payload) {
+  async function requestRecoveryPlan(payload, options = {}) {
     setIsGenerating(true);
     setErrorMessage('');
 
@@ -29,6 +33,13 @@ export default function App() {
         setPlan(null);
         setErrorMessage(data.message || 'We could not generate a recovery plan. Paste the discharge text or use the sample note for the demo.');
       }
+    } catch {
+      if (options.useSampleFallback) {
+        setPlan(sampleRecoveryPlan);
+      } else {
+        setPlan(null);
+        setErrorMessage('We could not reach the recovery service. Paste the discharge text or use the sample note for the demo.');
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -36,24 +47,24 @@ export default function App() {
 
   function buildFormPayload() {
     const formData = new FormData();
-    const textInput = document.getElementById('discharge-text');
-    const fileInput = document.getElementById('pdf-upload');
 
-    if (textInput?.value) {
-      formData.set('text', textInput.value);
+    if (dischargeText.trim()) {
+      formData.set('text', dischargeText.trim());
     }
 
-    if (fileInput?.files?.[0]) {
-      formData.set('file', fileInput.files[0]);
+    if (selectedFile) {
+      formData.set('file', selectedFile);
     }
 
     return formData;
   }
 
   function loadSamplePlan() {
+    setDischargeText(sampleDischargeNote.trim());
     const formData = new FormData();
+    formData.set('text', sampleDischargeNote.trim());
     formData.set('useSample', 'true');
-    void requestRecoveryPlan(formData);
+    void requestRecoveryPlan(formData, { useSampleFallback: true });
   }
 
   function generateRecoveryPlan() {
@@ -61,15 +72,23 @@ export default function App() {
   }
 
   return (
-    <main>
-      <section aria-labelledby="app-title">
-        <p>Patient recovery dashboard</p>
-        <h1 id="app-title">CAREFLOW</h1>
-        <p>Turn discharge instructions into a practical recovery plan.</p>
+    <main className="app-shell">
+      <section className="input-panel" aria-labelledby="app-title">
+        <div className="brand-row">
+          <p className="eyebrow">Patient recovery dashboard</p>
+          <h1 id="app-title">CAREFLOW</h1>
+          <p className="intro">Turn discharge instructions into a practical recovery plan.</p>
+        </div>
 
-        <form aria-label="Discharge note input">
+        <form className="input-form" aria-label="Discharge note input">
           <label htmlFor="pdf-upload">Upload discharge PDF</label>
-          <input id="pdf-upload" name="file" type="file" accept="application/pdf" />
+          <input
+            id="pdf-upload"
+            name="file"
+            type="file"
+            accept="application/pdf"
+            onChange={(event) => setSelectedFile(event.target.files?.[0] || null)}
+          />
 
           <label htmlFor="discharge-text">Paste discharge text</label>
           <textarea
@@ -77,36 +96,47 @@ export default function App() {
             name="text"
             rows={10}
             placeholder="Paste discharge instructions here"
+            value={dischargeText}
+            onChange={(event) => setDischargeText(event.target.value)}
           />
 
-          <button type="button" onClick={loadSamplePlan}>
-            Load sample pneumonia note
-          </button>
-          <button type="button" onClick={generateRecoveryPlan}>
-            Generate recovery plan
-          </button>
+          <div className="action-row">
+            <button type="button" className="secondary-button" onClick={loadSamplePlan}>
+              Load sample pneumonia note
+            </button>
+            <button type="button" className="primary-button" onClick={generateRecoveryPlan}>
+              Generate recovery plan
+            </button>
+          </div>
         </form>
       </section>
 
-      {errorMessage ? (
-        <section role="alert" aria-label="Recovery plan error">
-          <p>{errorMessage}</p>
-        </section>
-      ) : null}
-
-      {isGenerating ? <AgentProgress stages={agentProgress} /> : null}
-
-      {plan ? (
-        <>
-          <RecoveryDashboard plan={plan} />
-          <section aria-labelledby="recovery-chat-heading">
-            <h2 id="recovery-chat-heading">Recovery Chat</h2>
-            <RecoveryChat plan={plan} />
+      <section className="workspace" aria-label="Recovery workspace">
+        {errorMessage ? (
+          <section className="notice notice-error" role="alert" aria-label="Recovery plan error">
+            <p>{errorMessage}</p>
           </section>
-        </>
-      ) : null}
+        ) : null}
 
-      <aside aria-label="Medical disclaimer">
+        {isGenerating ? <AgentProgress stages={agentProgress} /> : null}
+
+        {plan ? (
+          <>
+            <RecoveryDashboard plan={plan} />
+            <section className="chat-section" aria-labelledby="recovery-chat-heading">
+              <h2 id="recovery-chat-heading">Recovery Chat</h2>
+              <RecoveryChat plan={plan} />
+            </section>
+          </>
+        ) : (
+          <section className="empty-dashboard" aria-label="Empty recovery dashboard">
+            <h2>Recovery plan will appear here</h2>
+            <p>Upload a discharge PDF, paste instructions, or load the pneumonia sample to begin.</p>
+          </section>
+        )}
+      </section>
+
+      <aside className="global-disclaimer" aria-label="Medical disclaimer">
         <p>{DISCLAIMER}</p>
       </aside>
     </main>

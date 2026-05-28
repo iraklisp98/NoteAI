@@ -52,3 +52,13 @@ Timestamp: 2026-05-28 13:33 Europe/Athens
 Model used: GPT-5 Codex
 What changed: Wired Generate recovery plan to /api/recovery-plan and added fallback error display while preserving paste, sample, and disclaimer controls.
 For what reason: Complete the Person 1 PDF/API fallback error-state TDD slice.
+
+Timestamp: 2026-05-28 13:36 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Implemented RecoveryChat API behavior for sending patient questions with the current recovery plan and displaying answer, source, safety level, and disclaimer.
+For what reason: Complete the Person 1 recovery chat mocked API TDD slice.
+
+Timestamp: 2026-05-28 13:42 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Added runnable Vite entry files, local sample fallbacks, controlled patient input state, and polished responsive CAREFLOW patient app styling.
+For what reason: Complete the Person 1 UI polish slice and make the patient app presentable for the demo while keeping tests green.

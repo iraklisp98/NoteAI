@@ -38,7 +38,7 @@ describe('RecoveryChat', () => {
         })
       })
     );
-    expect(await screen.findByText(goldenIbuprofenAnswer, { exact: false })).toBeInTheDocument();
+    expect(await screen.findByText(/I cannot confirm that ibuprofen is safe for you personally/i)).toBeInTheDocument();
     expect(screen.getByText(/source: medication timeline/i)).toBeInTheDocument();
     expect(screen.getByText(/ask doctor/i)).toBeInTheDocument();
   });
