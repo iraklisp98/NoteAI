@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "4cf5a2406090",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "ai.log",
+    "server/src/agents/conversationAgent.js",
+    "server/src/index.js",
+    "server/src/routes/chatRoute.js",
+    "server/src/routes/recoveryPlanRoute.js",
+    "server/src/services/recoveryPlanService.js",
+    "server/tests/chatRouteHttp.test.js",
+    "server/tests/chatSafety.test.js",
+    "server/tests/recoveryPlanRoute.test.js",
+    "server/tests/recoveryPlanService.test.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/4c/f5a2406090/0/metadata.json",
+      "transcript": "/4c/f5a2406090/0/full.jsonl",
+      "content_hash": "/4c/f5a2406090/0/content_hash.txt",
+      "prompt": "/4c/f5a2406090/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 846248,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 28761472,
+    "output_tokens": 64552,
+    "api_call_count": 350
+  }
+}

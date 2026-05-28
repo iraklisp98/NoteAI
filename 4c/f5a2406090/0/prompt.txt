@@ -1,0 +1,41 @@
+merge main in PatientApp branch
+
+---
+
+we made some changes in the backend. can you review the server folder and make the necesery implementations so the chat works in the frontend?
+
+---
+
+discard all changes
+
+---
+
+discard all changes
+
+---
+
+discard all changes
+
+---
+
+discard all changes
+
+---
+
+review this repo to have a clear view for all the changes made so far, then all the changes must be based on the prd.md, architecture.md and agents.md files. dont implement anything yet, just review
+
+---
+
+i have pulled some recent implementantion. right now we can upload a .pdf file but when i press the "generate recovery plan" button, it generates a mock recovery plan. fix this issue in order to generate a new recovery plan based on the pdf file uploaded
+
+---
+
+verify that all the agents use the API key for answering
+
+---
+
+i want the agent to be opensourched every time
+
+---
+
+yes
