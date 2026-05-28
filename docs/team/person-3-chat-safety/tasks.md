@@ -107,9 +107,10 @@ Chat behavior frozen; only safety/reliability bug fixes.
 
 ## Definition Of Done
 
-- `/api/chat` works locally
-- ibuprofen answer is safe and grounded
-- emergency escalation works
-- medication-change requests are refused safely
-- malformed input does not crash endpoint
-- Person 3 tests pass
+- [x] `/api/chat` route handler and Express-style route registration are implemented
+- [x] ibuprofen answer is safe and grounded in recovery plan medications
+- [x] sample ibuprofen question returns the shared golden demo answer
+- [x] emergency escalation works
+- [x] medication-change requests are refused safely
+- [x] malformed input does not crash endpoint
+- [x] Person 3 chat safety tests pass with Node's built-in test runner
