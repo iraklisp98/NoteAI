@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "npm run dev",
-    "dev": "npm --prefix apps/patient run dev",
+    "dev": "node scripts/dev.mjs",
     "build": "npm --prefix apps/patient run build",
-    "test": "npm --prefix apps/patient test",
+    "test": "npm --prefix apps/patient test && npm --prefix server test",
     "patient:start": "npm run patient:dev",
     "patient:dev": "npm --prefix apps/patient run dev",
     "patient:build": "npm --prefix apps/patient run build",
