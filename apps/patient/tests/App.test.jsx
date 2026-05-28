@@ -20,8 +20,16 @@ afterEach(() => {
 
 async function signIn() {
   const user = userEvent.setup();
-  await user.type(screen.getByLabelText(/email address/i), 'patient@example.com');
-  await user.type(screen.getByLabelText(/access code/i), '123456');
+  await user.type(screen.getByLabelText(/username or email/i), 'admin');
+  await user.type(screen.getByLabelText(/password/i), 'admin');
+  await user.click(screen.getByRole('button', { name: /sign in to careflow/i }));
+  return user;
+}
+
+async function signInWithEmail() {
+  const user = userEvent.setup();
+  await user.type(screen.getByLabelText(/username or email/i), 'admin@careflow.local');
+  await user.type(screen.getByLabelText(/password/i), 'admin');
   await user.click(screen.getByRole('button', { name: /sign in to careflow/i }));
   return user;
 }
@@ -38,15 +46,39 @@ describe('CAREFLOW patient app', () => {
   it('starts on a patient-friendly login page before showing discharge tools', async () => {
     render(<App />);
 
+    const identifierInput = screen.getByLabelText(/username or email/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+
     expect(screen.getByRole('heading', { name: /welcome to careflow/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/access code/i)).toBeInTheDocument();
+    expect(identifierInput).toHaveDisplayValue('');
+    expect(passwordInput).toHaveDisplayValue('');
+    expect(identifierInput).not.toHaveAttribute('placeholder', expect.stringMatching(/admin/i));
+    expect(passwordInput).not.toHaveAttribute('placeholder', expect.stringMatching(/admin/i));
     expect(screen.queryByLabelText(/upload discharge pdf/i)).not.toBeInTheDocument();
 
     await signIn();
 
     expect(screen.getByLabelText(/upload discharge pdf/i)).toBeInTheDocument();
     expect(screen.getByText(disclaimerText)).toBeInTheDocument();
+  });
+
+  it('allows the default user to sign in with username or email', async () => {
+    render(<App />);
+    await signInWithEmail();
+
+    expect(screen.getByLabelText(/upload discharge pdf/i)).toBeInTheDocument();
+  });
+
+  it('keeps the login page visible for credentials other than the default user', async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+    await user.type(screen.getByLabelText(/username or email/i), 'admin');
+    await user.type(screen.getByLabelText(/password/i), 'wrong');
+    await user.click(screen.getByRole('button', { name: /sign in to careflow/i }));
+
+    expect(screen.getByRole('alert')).toHaveTextContent(/use admin or admin@careflow.local with password admin/i);
+    expect(screen.queryByLabelText(/upload discharge pdf/i)).not.toBeInTheDocument();
   });
 
   it('renders the empty upload state with PDF, paste, sample, and disclaimer controls', async () => {

@@ -8,9 +8,17 @@ import RecoveryChat from './components/RecoveryChat.jsx';
 
 const DISCLAIMER =
   'CAREFLOW is a prototype that helps explain and organize discharge instructions. It is not a doctor and does not replace medical advice. For emergencies, call local emergency services. For medication changes or medical decisions, contact your doctor or pharmacist.';
+const DEMO_USER = {
+  username: 'admin',
+  email: 'admin@careflow.local',
+  password: 'admin'
+};
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [plan, setPlan] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -72,9 +80,26 @@ export default function App() {
     void requestRecoveryPlan(buildFormPayload());
   }
 
+  function handleLogin(event) {
+    event.preventDefault();
+
+    const normalizedIdentifier = loginIdentifier.trim().toLowerCase();
+    const isDemoIdentifier =
+      normalizedIdentifier === DEMO_USER.username ||
+      normalizedIdentifier === DEMO_USER.email;
+
+    if (isDemoIdentifier && loginPassword === DEMO_USER.password) {
+      setLoginError('');
+      setIsSignedIn(true);
+      return;
+    }
+
+    setLoginError('Use admin or admin@careflow.local with password admin for the demo.');
+  }
+
   if (!isSignedIn) {
     return (
-      <main className="login-shell">
+      <main key="login" className="login-shell">
         <section className="login-panel" aria-labelledby="login-title">
           <div className="login-copy">
             <p className="eyebrow">Patient recovery dashboard</p>
@@ -88,28 +113,35 @@ export default function App() {
           <form
             className="login-form"
             aria-label="Patient login"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setIsSignedIn(true);
-            }}
+            onSubmit={handleLogin}
           >
-            <label htmlFor="login-email">Email address</label>
+            <label htmlFor="login-identifier">Username or email</label>
             <input
-              id="login-email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder="patient@example.com"
+              id="login-identifier"
+              name="identifier"
+              type="text"
+              autoComplete="username"
+              placeholder="Enter username or email"
+              value={loginIdentifier || ''}
+              onChange={(event) => setLoginIdentifier(event.target.value)}
             />
 
-            <label htmlFor="login-code">Access code</label>
+            <label htmlFor="login-password">Password</label>
             <input
-              id="login-code"
-              name="access-code"
+              id="login-password"
+              name="password"
               type="password"
-              autoComplete="one-time-code"
-              placeholder="Enter your code"
+              autoComplete="current-password"
+              placeholder="Enter password"
+              value={loginPassword || ''}
+              onChange={(event) => setLoginPassword(event.target.value)}
             />
+
+            {loginError ? (
+              <p className="login-error" role="alert">
+                {loginError}
+              </p>
+            ) : null}
 
             <button type="submit" className="primary-button">
               Sign in to CAREFLOW
@@ -125,7 +157,7 @@ export default function App() {
   }
 
   return (
-    <main className="app-shell">
+    <main key="app" className="app-shell">
       <section className="input-panel" aria-labelledby="app-title">
         <div className="brand-row">
           <p className="eyebrow">Patient recovery dashboard</p>

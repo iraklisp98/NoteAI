@@ -82,3 +82,13 @@ Timestamp: 2026-05-28T15:08:32+03:00
 Model used: GPT-5 Codex
 What changed: Added explicit React imports to patient JSX files and a test guard to prevent the blank-page JSX runtime regression.
 For what reason: Fix the CAREFLOW patient app rendering blank after starting the local dev server.
+
+Timestamp: 2026-05-28T15:25:59+03:00
+Model used: GPT-5 Codex
+What changed: Added default demo login credentials that accept username admin or email admin@careflow.local with password admin, plus invalid-login feedback and tests.
+For what reason: Let the CAREFLOW demo use a predictable default user while supporting username/email sign-in.
+
+Timestamp: 2026-05-28T15:29:17+03:00
+Model used: GPT-5 Codex
+What changed: Removed visible demo credential placeholders from the login fields and added a test that the fields render blank.
+For what reason: Keep the login page clean while preserving the default admin/admin demo account.
