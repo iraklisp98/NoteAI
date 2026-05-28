@@ -1,4 +1,5 @@
 import React from 'react';
+
 export default function AgentProgress({ stages }) {
   if (!stages?.length) {
     return null;

@@ -1,9 +1,109 @@
-Timestamp: 2026-05-28T15:43:17+0300
+Timestamp: 2026-05-28T11:10:12+03:00
 Model used: GPT-5 Codex
-What changed: Added Gemini-backed Conversation Agent execution for ordinary grounded chat questions while preserving deterministic safety responses for medication and emergency questions.
-For what reason: All agents need real API integration without weakening the demo safety guardrails.
+What changed: Added mandatory AI change-log instructions to AGENTS.md, clarified Gemini API as the default AI provider, and created ai.log.
+For what reason: The team needs a consistent audit trail for every AI-assisted repo change during parallel hackathon development.
 
-Timestamp: 2026-05-28T15:56:27+0300
+Timestamp: 2026-05-28T11:12:02+03:00
 Model used: GPT-5 Codex
-What changed: Sanitized .env.example, added a tested server-side .env loader, and wired server startup to load local environment variables.
-For what reason: Live Gemini API calls require local environment variables while secrets must stay out of tracked example files.
+What changed: Added shared contracts, sample fixtures, environment template, merge workflow docs, and placeholder ownership folders for patient app, backend, and pitch deck.
+For what reason: The team needs a stable TDD foundation so three people can work independently on separate branches and merge at planned breakpoints.
+
+Timestamp: 2026-05-28T11:13:49+03:00
+Model used: GPT-5 Codex
+What changed: Replaced stale OpenAI references with Gemini API references in AGENTS.md, architecture.md, and Person 2 backend tasks.
+For what reason: The project provider decision changed to Gemini, so the shared foundation must point every teammate at the same AI integration target.
+
+Timestamp: 2026-05-28T11:29:22+03:00
+Model used: GPT-5 Codex
+What changed: Added a new "Mandatory TDD" section in AGENTS.md that explicitly requires all implementation work to follow failing-test-first TDD rules.
+For what reason: The team requested an explicit repository-level requirement that everything is tested using TDD.
+
+Timestamp: 2026-05-28T11:40:11+03:00
+Model used: GPT-5 Codex
+What changed: Added a small verification log entry to confirm end-to-end commit/push flow for Entire session visibility.
+For what reason: Requested a minimal tracked change to validate that commits and pushes are captured as expected.
+
+Timestamp: 2026-05-28T11:50:27+03:00
+Model used: GPT-5 Codex
+What changed: Reworked project planning docs for a fully parallel 4-way split: Person 1 patient app, Person 2 recovery-plan backend pipeline, Person 3 chat+safety backend, and Person 4 pitch/demo; updated ownership/branching docs and added new Person 3 and Person 4 task files.
+For what reason: The team requested complete isolation into four parallel workstreams with the fourth role dedicated only to pitching.
+
+Timestamp: 2026-05-28 12:00 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Added initial PatientApp Vitest/React Testing Library test harness and failing tests for upload state, dashboard rendering, agent progress, error fallback, chat, and disclaimer behavior.
+For what reason: Establish Person 1 TDD coverage before implementing the React patient app.
+
+Timestamp: 2026-05-28 12:49 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Added the initial PatientApp empty shell with PDF upload, paste field, sample/generate actions, disclaimer, and inert placeholders for dashboard/chat components.
+For what reason: Complete the first TDD slice for the required empty upload state while keeping later behaviors unimplemented.
+
+Timestamp: 2026-05-28 13:05 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Implemented RecoveryDashboard rendering for the shared RecoveryPlan contract and tightened dashboard tests for repeated fixture values.
+For what reason: Complete the Person 1 dashboard rendering TDD slice using shared sample recovery data.
+
+Timestamp: 2026-05-28 13:20 Europe/Athens
+Model used: GPT-5 Codex
+<<<<<<< HEAD
+What changed: Added AgentProgress and wired the sample recovery-plan action to show shared agent stages during a pending request, then render the returned dashboard plan.
+For what reason: Complete the Person 1 agent progress loading-state TDD slice.
+
+Timestamp: 2026-05-28 13:33 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Wired Generate recovery plan to /api/recovery-plan and added fallback error display while preserving paste, sample, and disclaimer controls.
+For what reason: Complete the Person 1 PDF/API fallback error-state TDD slice.
+
+Timestamp: 2026-05-28 13:36 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Implemented RecoveryChat API behavior for sending patient questions with the current recovery plan and displaying answer, source, safety level, and disclaimer.
+For what reason: Complete the Person 1 recovery chat mocked API TDD slice.
+
+Timestamp: 2026-05-28 13:42 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Added runnable Vite entry files, local sample fallbacks, controlled patient input state, and polished responsive CAREFLOW patient app styling.
+For what reason: Complete the Person 1 UI polish slice and make the patient app presentable for the demo while keeping tests green.
+
+Timestamp: 2026-05-28T14:55:27+03:00
+Model used: GPT-5 Codex
+What changed: Added a patient login page with email and access-code fields, gated the recovery dashboard behind sign-in, updated responsive styles, and covered the flow in App tests.
+For what reason: Make the CAREFLOW patient UI more user-friendly with a clear entry screen before discharge tools.
+
+Timestamp: 2026-05-28T15:00:57+03:00
+Model used: GPT-5 Codex
+What changed: Added a root package.json with scripts that forward dev, build, and test commands to the patient app.
+For what reason: Allow CAREFLOW app commands to be run from the repository root instead of inside apps/patient.
+
+Timestamp: 2026-05-28T15:04:09+03:00
+Model used: GPT-5 Codex
+What changed: Added root start aliases for launching the patient app dev server from the repository root.
+For what reason: Make the expected npm start command start the CAREFLOW local app.
+
+Timestamp: 2026-05-28T15:08:32+03:00
+Model used: GPT-5 Codex
+What changed: Added explicit React imports to patient JSX files and a test guard to prevent the blank-page JSX runtime regression.
+For what reason: Fix the CAREFLOW patient app rendering blank after starting the local dev server.
+
+Timestamp: 2026-05-28T15:25:59+03:00
+Model used: GPT-5 Codex
+What changed: Added default demo login credentials that accept username admin or email admin@careflow.local with password admin, plus invalid-login feedback and tests.
+For what reason: Let the CAREFLOW demo use a predictable default user while supporting username/email sign-in.
+
+Timestamp: 2026-05-28T15:29:17+03:00
+Model used: GPT-5 Codex
+What changed: Removed visible demo credential placeholders from the login fields and added a test that the fields render blank.
+For what reason: Keep the login page clean while preserving the default admin/admin demo account.
+
+Timestamp: 2026-05-28T15:33:42+03:00
+Model used: GPT-5 Codex
+What changed: Changed the invalid login message to "Invalid username or password" and updated the login test expectation.
+For what reason: Avoid exposing demo credentials in the login error state.
+=======
+What changed: Added a small README commit workflow check note.
+For what reason: User requested a small README adjustment and git add/commit to verify commits.
+
+Timestamp: 2026-05-28T15:38:33+03:00
+Model used: GPT-5 Codex
+What changed: Added the Person 4 pitch deck app, pitch coverage tests, demo script, insurance story, Android future plan, rehearsal checklist, and Node/Vite generated-file ignores.
+For what reason: User asked to take over the Person 4 pitch/demo workstream on the pitch branch.
+>>>>>>> 9be80aa (feat: add pitch deck app)

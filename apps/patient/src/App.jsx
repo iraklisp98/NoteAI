@@ -8,8 +8,17 @@ import RecoveryChat from './components/RecoveryChat.jsx';
 
 const DISCLAIMER =
   'CAREFLOW is a prototype that helps explain and organize discharge instructions. It is not a doctor and does not replace medical advice. For emergencies, call local emergency services. For medication changes or medical decisions, contact your doctor or pharmacist.';
+const DEMO_USER = {
+  username: 'admin',
+  email: 'admin@careflow.local',
+  password: 'admin'
+};
 
 export default function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [plan, setPlan] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -71,8 +80,84 @@ export default function App() {
     void requestRecoveryPlan(buildFormPayload());
   }
 
+  function handleLogin(event) {
+    event.preventDefault();
+
+    const normalizedIdentifier = loginIdentifier.trim().toLowerCase();
+    const isDemoIdentifier =
+      normalizedIdentifier === DEMO_USER.username ||
+      normalizedIdentifier === DEMO_USER.email;
+
+    if (isDemoIdentifier && loginPassword === DEMO_USER.password) {
+      setLoginError('');
+      setIsSignedIn(true);
+      return;
+    }
+
+    setLoginError('Invalid username or password');
+  }
+
+  if (!isSignedIn) {
+    return (
+      <main key="login" className="login-shell">
+        <section className="login-panel" aria-labelledby="login-title">
+          <div className="login-copy">
+            <p className="eyebrow">Patient recovery dashboard</p>
+            <h1 id="login-title">Welcome to CAREFLOW</h1>
+            <p>
+              Sign in to organize discharge instructions, recovery tasks, medications,
+              warning signs, and questions for your care team.
+            </p>
+          </div>
+
+          <form
+            className="login-form"
+            aria-label="Patient login"
+            onSubmit={handleLogin}
+          >
+            <label htmlFor="login-identifier">Username or email</label>
+            <input
+              id="login-identifier"
+              name="identifier"
+              type="text"
+              autoComplete="username"
+              placeholder="Enter username or email"
+              value={loginIdentifier || ''}
+              onChange={(event) => setLoginIdentifier(event.target.value)}
+            />
+
+            <label htmlFor="login-password">Password</label>
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Enter password"
+              value={loginPassword || ''}
+              onChange={(event) => setLoginPassword(event.target.value)}
+            />
+
+            {loginError ? (
+              <p className="login-error" role="alert">
+                {loginError}
+              </p>
+            ) : null}
+
+            <button type="submit" className="primary-button">
+              Sign in to CAREFLOW
+            </button>
+          </form>
+
+          <aside className="login-disclaimer" aria-label="Medical disclaimer">
+            <p>{DISCLAIMER}</p>
+          </aside>
+        </section>
+      </main>
+    );
+  }
+
   return (
-    <main className="app-shell">
+    <main key="app" className="app-shell">
       <section className="input-panel" aria-labelledby="app-title">
         <div className="brand-row">
           <p className="eyebrow">Patient recovery dashboard</p>
