@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import agentProgress from '../../../shared/agentProgress.json';
 import sampleRecoveryPlan from '../../../shared/sampleRecoveryPlan.json';
 import sampleDischargeNote from '../../../shared/sampleDischargeNote.txt?raw';

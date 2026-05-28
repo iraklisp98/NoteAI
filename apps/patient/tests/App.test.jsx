@@ -1,11 +1,18 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from '../src/App.jsx';
 import agentProgress from '../../../shared/agentProgress.json';
 import sampleRecoveryPlan from '../../../shared/sampleRecoveryPlan.json';
 
 const disclaimerText = /not a doctor and does not replace medical advice/i;
+const jsxEntryFiles = [
+  'src/App.jsx',
+  'src/components/AgentProgress.jsx',
+  'src/components/RecoveryChat.jsx',
+  'src/components/RecoveryDashboard.jsx'
+];
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -20,6 +27,14 @@ async function signIn() {
 }
 
 describe('CAREFLOW patient app', () => {
+  it('keeps React imported in JSX entry files for the deployed transform', () => {
+    const sources = jsxEntryFiles.map((path) => readFileSync(path, 'utf8'));
+
+    for (const source of sources) {
+      expect(source).toMatch(/import React(?:,| from)/);
+    }
+  });
+
   it('starts on a patient-friendly login page before showing discharge tools', async () => {
     render(<App />);
 

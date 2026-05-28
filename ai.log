@@ -67,3 +67,18 @@ Timestamp: 2026-05-28T14:55:27+03:00
 Model used: GPT-5 Codex
 What changed: Added a patient login page with email and access-code fields, gated the recovery dashboard behind sign-in, updated responsive styles, and covered the flow in App tests.
 For what reason: Make the CAREFLOW patient UI more user-friendly with a clear entry screen before discharge tools.
+
+Timestamp: 2026-05-28T15:00:57+03:00
+Model used: GPT-5 Codex
+What changed: Added a root package.json with scripts that forward dev, build, and test commands to the patient app.
+For what reason: Allow CAREFLOW app commands to be run from the repository root instead of inside apps/patient.
+
+Timestamp: 2026-05-28T15:04:09+03:00
+Model used: GPT-5 Codex
+What changed: Added root start aliases for launching the patient app dev server from the repository root.
+For what reason: Make the expected npm start command start the CAREFLOW local app.
+
+Timestamp: 2026-05-28T15:08:32+03:00
+Model used: GPT-5 Codex
+What changed: Added explicit React imports to patient JSX files and a test guard to prevent the blank-page JSX runtime regression.
+For what reason: Fix the CAREFLOW patient app rendering blank after starting the local dev server.

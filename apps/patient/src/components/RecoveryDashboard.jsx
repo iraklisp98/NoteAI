@@ -1,3 +1,5 @@
+import React from 'react';
+
 function formatUrgency(urgency) {
   return urgency.replaceAll('_', ' ');
 }
