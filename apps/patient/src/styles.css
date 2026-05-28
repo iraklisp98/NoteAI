@@ -1,0 +1,450 @@
+:root {
+  color: #172126;
+  background: #f4f7f6;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f4f7f6;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 16px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #c8d3d1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #172126;
+  padding: 12px;
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.45;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+li + li {
+  margin-top: 12px;
+}
+
+.app-shell {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) 1fr;
+  gap: 20px;
+}
+
+.input-panel,
+.workspace,
+.dashboard-section,
+.agent-progress,
+.chat-section,
+.empty-dashboard,
+.notice,
+.global-disclaimer,
+.section-disclaimer {
+  border: 1px solid #d6dfdc;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.input-panel {
+  align-self: start;
+  position: sticky;
+  top: 24px;
+  padding: 20px;
+}
+
+.brand-row h1 {
+  margin: 0;
+  color: #0f3d3a;
+  font-size: 2.25rem;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #61706d;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.intro {
+  margin: 10px 0 0;
+  color: #40504d;
+  line-height: 1.45;
+}
+
+.input-form,
+.chat-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.input-form label,
+.chat-form label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #24332f;
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.primary-button {
+  background: #116149;
+  color: #ffffff;
+}
+
+.secondary-button {
+  background: #e8efed;
+  color: #183730;
+}
+
+.workspace {
+  min-width: 0;
+  padding: 18px;
+  display: grid;
+  gap: 16px;
+  background: #fbfcfb;
+}
+
+.empty-dashboard {
+  min-height: 420px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 32px;
+  text-align: center;
+  color: #52605d;
+}
+
+.empty-dashboard h2,
+.dashboard-section h2,
+.agent-progress h2,
+.chat-section h2 {
+  margin: 0 0 12px;
+  color: #172126;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+}
+
+.notice {
+  padding: 14px 16px;
+}
+
+.notice-error {
+  border-color: #e4bbb0;
+  background: #fff5f2;
+  color: #7d2b1c;
+}
+
+.agent-progress {
+  padding: 18px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.agent-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.agent-step {
+  min-height: 108px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #dbe4e1;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.step-index {
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #d7ece5;
+  color: #0f513d;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.agent-step h3,
+.task-list h3,
+.medication-list h3,
+.red-flag-list h3 {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+  line-height: 1.28;
+  letter-spacing: 0;
+}
+
+.agent-step p,
+.dashboard-section p,
+.chat-panel p {
+  margin: 0;
+  color: #42524e;
+  line-height: 1.45;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.dashboard-section,
+.section-disclaimer,
+.chat-section {
+  padding: 18px;
+}
+
+.snapshot-section,
+.dashboard-section:has(.medication-list),
+.section-disclaimer {
+  grid-column: 1 / -1;
+}
+
+.snapshot-section h3 {
+  margin: 0 0 10px;
+  font-size: 1.45rem;
+  letter-spacing: 0;
+}
+
+.recovery-goal {
+  margin-top: 12px !important;
+  padding: 12px;
+  border-left: 4px solid #2b7c67;
+  background: #eff7f4;
+}
+
+.task-list,
+.medication-list,
+.red-flag-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-list li,
+.medication-list li,
+.red-flag-list li {
+  padding: 12px;
+  border: 1px solid #e1e8e6;
+  border-radius: 8px;
+  background: #fbfcfb;
+}
+
+.source-label {
+  margin-top: 8px !important;
+  color: #60716d !important;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.medication-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.medication-list li + li {
+  margin-top: 0;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 8px 10px;
+  margin: 0;
+}
+
+dt {
+  color: #66736f;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+dd {
+  margin: 0;
+  color: #1e2d29;
+  line-height: 1.35;
+}
+
+.red-flag-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+
+.urgency-pill {
+  min-width: 112px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.urgency-emergency_now {
+  background: #fde9e4;
+  color: #8c2f1e;
+}
+
+.urgency-call_today {
+  background: #fff2cf;
+  color: #6b4b00;
+}
+
+.urgency-monitor {
+  background: #e4f0fb;
+  color: #244f78;
+}
+
+.compact-section ul {
+  display: grid;
+  gap: 8px;
+}
+
+.chat-section {
+  display: grid;
+  gap: 12px;
+}
+
+.chat-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.chat-form {
+  margin-top: 0;
+}
+
+.chat-answer {
+  padding: 14px;
+  border: 1px solid #d9e3df;
+  border-radius: 8px;
+  background: #f7faf9;
+  white-space: pre-wrap;
+}
+
+.answer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.answer-meta p {
+  border-radius: 999px;
+  background: #e8efed;
+  padding: 6px 10px;
+  color: #24332f;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.global-disclaimer {
+  grid-column: 1 / -1;
+  padding: 14px 16px;
+  color: #4a5a56;
+}
+
+.global-disclaimer p,
+.section-disclaimer p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.section-disclaimer {
+  background: #f7faf9;
+  color: #4a5a56;
+}
+
+@media (max-width: 1080px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .input-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 14px;
+  }
+
+  .dashboard,
+  .medication-list,
+  .action-row {
+    grid-template-columns: 1fr;
+  }
+
+  .red-flag-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .urgency-pill {
+    width: fit-content;
+  }
+}
