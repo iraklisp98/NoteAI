@@ -1,0 +1,25 @@
+Patient Name: Aisha Khan
+DOB: 2001-02-14
+MRN: 33445566
+Admission Date: 2026-04-28
+Discharge Date: 2026-05-03
+Primary Diagnosis: Diabetic ketoacidosis (DKA)
+Secondary Diagnoses: Type 1 diabetes mellitus
+Hospital Course Summary:
+- Presented with polyuria, polydipsia, and vomiting; labs consistent with DKA (glucose 520 mg/dL, anion gap metabolic acidosis).
+- Treated with IV fluids, insulin infusion, and electrolyte repletion; transitioned to subcutaneous insulin and tolerated oral intake prior to discharge.
+- Diabetes education provided; insulin regimen adjusted.
+Medications at Discharge:
+- Insulin as per discharge regimen (basal-bolus): Glargine 18 units nightly; Lispro with meals per sliding scale — see instructions.
+- Ondansetron 4 mg PO PRN nausea
+Follow-up:
+- Endocrinology clinic in 3 days for insulin titration.
+- Primary care within 1 week.
+Home Instructions:
+- Monitor blood glucose and ketones at home; follow sick-day rules.
+- Hold insulin dosing changes without discussing with endocrinology unless instructed.
+Return Precautions / Red Flags:
+- Persistent vomiting, inability to keep fluids down, severe abdominal pain, confusion, rapid breathing, or blood glucose persistently >300 mg/dL -> seek emergency care.
+Allergies: NKDA
+Discharge Disposition: Home; family to assist with insulin administration
+Discharge Summary Prepared By: Dr. M. Chen
