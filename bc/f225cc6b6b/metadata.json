@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "bcf225cc6b6b",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "README.md",
+    "ai.log",
+    "apps/patient/src/App.jsx",
+    "apps/patient/tests/App.test.jsx",
+    "server/src/routes/recoveryPlanRoute.js",
+    "server/src/services/pdfTextExtractor.js",
+    "server/tests/recoveryPlanRoute.test.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/bc/f225cc6b6b/0/metadata.json",
+      "transcript": "/bc/f225cc6b6b/0/full.jsonl",
+      "content_hash": "/bc/f225cc6b6b/0/content_hash.txt",
+      "prompt": "/bc/f225cc6b6b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 509267,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 16459520,
+    "output_tokens": 50262,
+    "api_call_count": 187
+  }
+}

@@ -1,0 +1,95 @@
+add and commit
+
+---
+
+at what stage are we currently at the moment regarding program completion? dont change anything in the repo. are all agents working properly? do we have pdf templates ready data for showing? do we utilize the gemini api key or the frontend runs in a mock senario right now? dont do anything in the repo
+
+---
+
+from where does it take the gemini api key? .env.example?
+
+---
+
+create a .env file so i can insert the gemini api key and start working from there
+
+---
+
+i used the api key i have now. make it work so the chat actually replies
+
+---
+
+[student@lab-r01-s20 NoteAI]$   cd server
+  npm start
+
+> careflow-backend@0.1.0 start
+> node src/index.js
+
+node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at file:///home/student/NoteAI/server/src/index.js:62:18
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 3001
+}
+
+Node.js v25.9.0
+[student@lab-r01-s20 server]$
+
+---
+
+[student@lab-r01-s20 pitch]$ git checkout fix_api 
+M       .env.example
+M       .gitignore
+M       ai.log
+Switched to branch 'fix_api'
+[student@lab-r01-s20 pitch]$   cd apps/patient
+  npm run dev -- --port 5173
+bash: cd: apps/patient: No such file or directory
+
+> careflow-pitch-deck@0.0.0 dev
+> vite --host 0.0.0.0 --port 5173
+
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+
+  VITE v5.4.21  ready in 154 ms
+
+  ➜  Local:   http://localhost:5175/
+  ➜  Network: http://172.16.10.203:5175/
+  ➜  press h + enter to show help
+
+---
+
+tell me again how to run the backend and frontend
+
+---
+
+Send
+I can answer using the generated recovery plan, but I cannot diagnose new symptoms or replace medical advice. Ask about medications, today's tasks, red flags, or follow-up steps.
+
+---
+
+these are fixed replies right? is the chat actually working using agents?
+
+---
+
+fix it so it actually uses gemini
+
+---
+
+add and commit
+
+---
+
+we need to work on the frontend at `apps/patient/src` the generate recovery plan button must read the uploaded pdf file. from that point, agents on the backend need to work on the uploaded file's information. if NO upload file is provided, the  information should be taken from the `paste discharge text`. remove the `Load sample pneumonia` note completely. on the right panel, the information the user sees are the information the agents gathered from the uploaded pdf or the paste discharge text
