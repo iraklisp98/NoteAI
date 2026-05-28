@@ -37,3 +37,13 @@ Timestamp: 2026-05-28 14:05 Europe/Athens
 Model used: GPT-5 Codex
 What changed: Added explicit React imports to JSX components after diagnosing a browser blank page caused by JSX transform output referencing React without a module binding.
 For what reason: Fix the local dev render while keeping patient app tests and build green.
+
+Timestamp: 2026-05-28T15:11:00+0300
+Model used: GPT-5 Codex
+What changed: Split the recovery-plan backend into separate Intake, Summary, Medication, Risk, and Education agent files, added a recovery-plan composer, and wired the Conversation Agent into the native /api/chat route.
+For what reason: The PRD requires visible agents to correspond to real backend pipeline steps and chat to be available through the running API server.
+
+Timestamp: 2026-05-28T15:21:31+0300
+Model used: GPT-5 Codex
+What changed: Added a 55-year-old male pneumonia discharge summary text fixture, generated a text-readable PDF fixture, and covered the PDF fixture in extractor tests.
+For what reason: The demo needs a realistic pneumonia discharge PDF upload sample matching the requested patient profile.
