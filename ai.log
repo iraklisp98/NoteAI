@@ -127,3 +127,8 @@ Model used: GPT-5 Codex
 What changed: Removed the patient app sample-note path, updated upload/paste-only recovery plan flow, and aligned PDF error copy and docs with the new behavior.
 For what reason: User asked for the frontend to use the uploaded PDF or pasted discharge text directly and to remove the sample-note button completely.
 >>>>>>> 9be80aa (feat: add pitch deck app)
+
+Timestamp: 2026-05-28T14:12:00+00:00
+Model used: GPT-5 mini
+What changed: Added 5 generated discharge note examples (TXT and matching .pdf copies) under shared/generated/ for CHF, STEMI, COPD exacerbation, DKA, and ischemic stroke.
+For what reason: User requested similar discharge notes in both .txt and .pdf formats for testing and demo purposes.

@@ -1,0 +1,28 @@
+Patient Name: Robert King
+DOB: 1949-11-21
+MRN: 11223344
+Admission Date: 2026-05-05
+Discharge Date: 2026-05-09
+Primary Diagnosis: Acute exacerbation of chronic obstructive pulmonary disease (COPD)
+Secondary Diagnoses: Chronic hypoxemic respiratory failure
+Hospital Course Summary:
+- Treated with bronchodilators, systemic corticosteroids, and antibiotics for suspected bacterial exacerbation.
+- Required supplemental oxygen; weaned to baseline home oxygen settings.
+- Inhaler technique reviewed and home oxygen equipment arranged.
+Medications at Discharge:
+- Prednisone 40 mg PO daily for 5 days
+- Azithromycin 500 mg PO day 1 then 250 mg daily x4 days
+- Tiotropium inhaler once daily
+- Albuterol inhaler 2 puffs PRN
+- Home oxygen as previously prescribed
+Follow-up:
+- Pulmonology clinic in 2 weeks.
+- Primary care as directed.
+Home Instructions:
+- Use inhalers and nebulizers as instructed; perform breathing exercises.
+- Continue home oxygen; monitor oxygen saturation.
+Return Precautions / Red Flags:
+- Increased shortness of breath, fever, confusion, or blue lips -> seek emergency care.
+Allergies: Sulfa (hives)
+Discharge Disposition: Home with home health nursing
+Discharge Summary Prepared By: Dr. L. Nguyen
