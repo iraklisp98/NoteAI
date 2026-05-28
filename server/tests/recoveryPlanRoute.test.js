@@ -125,5 +125,5 @@ test("POST /api/recovery-plan returns fallback-friendly error when PDF text extr
 
   assert.equal(response.status, 400);
   assert.equal(response.body.error, "PDF_TEXT_EXTRACTION_FAILED");
-  assert.match(response.body.message, /Paste the discharge text or use the sample note/);
+  assert.match(response.body.message, /Paste the discharge text or upload a PDF/);
 });

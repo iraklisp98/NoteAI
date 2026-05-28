@@ -109,12 +109,12 @@ export async function handleRecoveryPlanRoute(request) {
     return buildRecoveryPlan(input);
   } catch (error) {
     if (error instanceof PdfTextExtractionError) {
-      return {
-        statusCode: 400,
-        body: {
-          error: error.code,
-          message: error.message
-        }
+    return {
+      statusCode: 400,
+      body: {
+        error: error.code,
+        message: error.message
+      }
       };
     }
 

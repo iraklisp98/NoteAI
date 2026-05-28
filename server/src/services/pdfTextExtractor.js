@@ -7,7 +7,7 @@ export class PdfTextExtractionError extends Error {
 }
 
 const pdfFallbackMessage =
-  "We could not read this PDF reliably. Paste the discharge text or use the sample note for the demo.";
+  "We could not read this PDF reliably. Paste the discharge text or upload a PDF.";
 
 function looksLikePdf(buffer) {
   return buffer.subarray(0, 8).toString("utf8").startsWith("%PDF");

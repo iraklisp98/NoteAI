@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import agentProgress from '../../../shared/agentProgress.json';
-import sampleRecoveryPlan from '../../../shared/sampleRecoveryPlan.json';
-import sampleDischargeNote from '../../../shared/sampleDischargeNote.txt?raw';
 import AgentProgress from './components/AgentProgress.jsx';
 import RecoveryDashboard from './components/RecoveryDashboard.jsx';
 import RecoveryChat from './components/RecoveryChat.jsx';
@@ -25,7 +23,7 @@ export default function App() {
   const [dischargeText, setDischargeText] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
 
-  async function requestRecoveryPlan(payload, options = {}) {
+  async function requestRecoveryPlan(payload) {
     setIsGenerating(true);
     setErrorMessage('');
 
@@ -40,15 +38,11 @@ export default function App() {
         setPlan(data.plan);
       } else {
         setPlan(null);
-        setErrorMessage(data.message || 'We could not generate a recovery plan. Paste the discharge text or use the sample note for the demo.');
+        setErrorMessage(data.message || 'We could not generate a recovery plan. Paste the discharge text or upload a PDF.');
       }
     } catch {
-      if (options.useSampleFallback) {
-        setPlan(sampleRecoveryPlan);
-      } else {
-        setPlan(null);
-        setErrorMessage('We could not reach the recovery service. Paste the discharge text or use the sample note for the demo.');
-      }
+      setPlan(null);
+      setErrorMessage('We could not reach the recovery service. Paste the discharge text or upload a PDF.');
     } finally {
       setIsGenerating(false);
     }
@@ -66,14 +60,6 @@ export default function App() {
     }
 
     return formData;
-  }
-
-  function loadSamplePlan() {
-    setDischargeText(sampleDischargeNote.trim());
-    const formData = new FormData();
-    formData.set('text', sampleDischargeNote.trim());
-    formData.set('useSample', 'true');
-    void requestRecoveryPlan(formData, { useSampleFallback: true });
   }
 
   function generateRecoveryPlan() {
@@ -186,9 +172,6 @@ export default function App() {
           />
 
           <div className="action-row">
-            <button type="button" className="secondary-button" onClick={loadSamplePlan}>
-              Load sample pneumonia note
-            </button>
             <button type="button" className="primary-button" onClick={generateRecoveryPlan}>
               Generate recovery plan
             </button>
@@ -216,7 +199,7 @@ export default function App() {
         ) : (
           <section className="empty-dashboard" aria-label="Empty recovery dashboard">
             <h2>Recovery plan will appear here</h2>
-            <p>Upload a discharge PDF, paste instructions, or load the pneumonia sample to begin.</p>
+            <p>Upload a discharge PDF or paste instructions to begin.</p>
           </section>
         )}
       </section>
