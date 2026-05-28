@@ -1,1 +1,21 @@
-git commit and push the changes
+git add ai.log
+
+---
+
+commit and push
+
+---
+
+add and commit all the unstaged changes
+
+---
+
+push them
+
+---
+
+change branch to PatientApp again
+
+---
+
+i want to make the UI more user friendly, first of all create a login page
