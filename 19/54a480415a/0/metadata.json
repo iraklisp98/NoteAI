@@ -1,0 +1,70 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "1954a480415a",
+  "session_id": "019e6e5b-abbe-7b81-9a84-7a46f918e364",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-28T13:02:45.230853772Z",
+  "branch": "agentsfix",
+  "checkpoints_count": 3,
+  "files_touched": [
+    ".env.example",
+    "ai.log",
+    "apps/patient/node_modules/.vite/vitest/results.json",
+    "server/src/agents/conversationAgent.js",
+    "server/src/index.js",
+    "server/src/routes/chatRoute.js",
+    "server/src/services/envLoader.js",
+    "server/tests/chatSafety.test.js",
+    "server/tests/envLoader.test.js"
+  ],
+  "agent": "Codex",
+  "model": "gpt-5.5",
+  "turn_id": "c0c0600dbcf6",
+  "checkpoint_transcript_start": 391,
+  "transcript_lines_at_start": 391,
+  "token_usage": {
+    "input_tokens": 127426,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3233152,
+    "output_tokens": 9878,
+    "api_call_count": 34
+  },
+  "session_metrics": {
+    "turn_count": 8
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-28T13:02:45.185984029Z",
+    "agent_lines": 271,
+    "agent_removed": 54,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 271,
+    "total_lines_changed": 325,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 154,
+      "agent_lines_removed": 7
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 154,
+      "agent_lines_removed": 7
+    }
+  ]
+}

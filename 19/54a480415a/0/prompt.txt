@@ -1,0 +1,13 @@
+we need to add real API integration to all agents
+
+---
+
+we need to add real API integration to all agents
+
+---
+
+explain in details
+
+---
+
+check again if the agents are using API and if the env is correctly setup
