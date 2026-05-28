@@ -2,7 +2,7 @@
 
 ## Ownership
 
-You own the Node.js server, Gemini API integration, PDF extraction, agent pipeline, validation, and safety filters.
+You own the Node.js recovery-plan backend pipeline: Gemini integration, PDF extraction, agent pipeline, validation, and fallback behavior.
 
 Primary folder:
 
@@ -10,7 +10,7 @@ Primary folder:
 server/
 ```
 
-Do not edit patient UI or pitch deck except at integration breakpoints.
+Do not edit patient UI, chat/safety backend scope, or pitch deck except at integration breakpoints.
 
 ---
 
@@ -18,7 +18,7 @@ Do not edit patient UI or pitch deck except at integration breakpoints.
 
 Build the reliable engine behind the demo:
 
-PDF/text input becomes validated `RecoveryPlan` JSON, and chat answers are grounded in that plan with medical safety boundaries.
+PDF/text input becomes validated `RecoveryPlan` JSON that reliably powers dashboard rendering and chat grounding.
 
 ---
 
@@ -28,18 +28,16 @@ Recommended tests:
 
 - unit tests for each agent function
 - route tests for `/api/recovery-plan`
-- route tests for `/api/chat`
 - schema validation tests
-- safety filter tests
+- fallback behavior tests
 
 Minimum test cases:
 
 1. Sample pneumonia note creates valid `RecoveryPlan`.
 2. Missing medication dose appears in `missing_information`.
 3. PDF extraction failure returns a fallback-friendly error.
-4. Ibuprofen question returns `ask_doctor`.
-5. Emergency symptoms return `emergency`.
-6. Invalid model JSON falls back safely.
+4. Invalid model JSON falls back safely.
+5. Recovery plan route returns deterministic fallback when AI path fails.
 
 ---
 
@@ -52,8 +50,7 @@ server/
 ├── src/
 │   ├── index.js
 │   ├── routes/
-│   │   ├── recoveryPlanRoute.js
-│   │   └── chatRoute.js
+│   │   └── recoveryPlanRoute.js
 │   ├── agents/
 │   │   ├── intakeAgent.js
 │   │   ├── summaryAgent.js
@@ -65,15 +62,12 @@ server/
 │   │   ├── geminiClient.js
 │   │   ├── pdfTextExtractor.js
 │   │   └── recoveryPlanValidator.js
-│   ├── safety/
-│   │   └── chatSafety.js
 │   └── fixtures/
 │       └── fallbackRecoveryPlan.js
 └── tests/
     ├── recoveryPlanRoute.test.js
-    ├── chatRoute.test.js
     ├── agents.test.js
-    └── chatSafety.test.js
+    └── recoveryPlanValidator.test.js
 ```
 
 ---
@@ -93,21 +87,6 @@ Return:
 - validated recovery plan
 - agent progress summaries
 - warnings
-
-### `POST /api/chat`
-
-Accept:
-
-- user question
-- recovery plan JSON
-
-Return:
-
-- answer
-- source
-- safety level
-
----
 
 ## Agent Pipeline
 
@@ -130,28 +109,15 @@ Use Gemini API calls during the real path. Keep a deterministic fallback path fo
 
 ---
 
-## Safety Rules
+## Coordination With Person 3
 
-The backend must enforce:
+Person 3 owns `/api/chat`, conversation behavior, and safety guardrails.
 
-- no diagnosis
-- no medication dose changes
-- no telling patient to stop medication
-- no declaring ibuprofen or other added medications safe
-- emergency symptoms trigger emergency guidance
-- missing information triggers ask-doctor response
+Person 2 must provide:
 
-For medication questions:
-
-```text
-safetyLevel = "ask_doctor"
-```
-
-For severe breathing trouble, chest pain, confusion, blue lips, fainting, or oxygen below 90%:
-
-```text
-safetyLevel = "emergency"
-```
+- stable `RecoveryPlan` contract output
+- fallback plan compatibility
+- route/schema behavior that keeps chat grounding inputs valid
 
 ---
 
@@ -184,7 +150,7 @@ Return valid fallback recovery plan from `/api/recovery-plan`.
 
 ### Hour 5
 
-Gemini path works for sample pneumonia note.
+Gemini path works for sample pneumonia note and is ready for chat integration by Person 3.
 
 ### Hour 8
 
@@ -198,7 +164,5 @@ Freeze backend features. Only reliability fixes.
 - PDF or text input is accepted
 - Gemini pipeline returns valid recovery plan
 - fallback recovery plan exists
-- chat endpoint answers ibuprofen safely
-- emergency symptoms escalate
 - no API keys committed
 - Person 2 tests pass

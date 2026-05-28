@@ -431,26 +431,41 @@ Done when:
 - loading and error states are visible
 - the patient dashboard feels polished
 
-### Person 2: AI Backend
+### Person 2: AI Backend Pipeline
 
 Owns:
 
 - Node server
-- Gemini API integration
+- `/api/recovery-plan`
 - PDF text extraction
-- agent prompts
+- intake, summary, medication, risk, and education agents
 - JSON validation
 - fallback recovery plan
-- chat grounding
 
 Done when:
 
 - sample pneumonia input produces valid JSON
 - malformed model output does not crash the app
-- chat refuses unsafe medication/dose requests
 - API key is not committed
 
-### Person 3: Pitch + Demo
+### Person 3: Chat + Safety Backend
+
+Owns:
+
+- `/api/chat`
+- conversation agent
+- chat safety guardrails and emergency escalation
+- ibuprofen golden-answer safety behavior
+- backend chat tests and integration with generated recovery plan
+
+Done when:
+
+- chat is grounded in the recovery plan JSON
+- medication-addition questions route to doctor/pharmacist guidance
+- emergency symptom questions escalate correctly
+- chat path remains safe even when plan fields are missing
+
+### Person 4: Pitch + Demo
 
 Owns:
 

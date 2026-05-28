@@ -6,7 +6,7 @@ CAREFLOW is a 10-hour TDD hackathon MVP. It converts a pneumonia discharge PDF i
 
 The architecture is optimized for:
 
-- parallel work by 3 people
+- parallel work by 4 people
 - no file ownership overlap
 - fast local demo
 - safe medical boundaries
@@ -73,11 +73,17 @@ Pitch Deck Localhost App/Page
 Use this split to avoid merge conflicts.
 
 ```text
-apps/patient/          Person 1 only
-server/                Person 2 only
-apps/pitch/            Person 3 only
-shared/                Contract files only, edited at breakpoints
-docs/team/             Planning docs only
+apps/patient/                Person 1 only
+server/src/agents/           Person 2 only
+server/src/services/         Person 2 only
+server/src/routes/recoveryPlanRoute.js  Person 2 only
+server/src/routes/chatRoute.js          Person 3 only
+server/src/safety/           Person 3 only
+server/src/agents/conversationAgent.js  Person 3 only
+apps/pitch/                  Person 4 only
+docs/team/person-4-pitch-demo/ Person 4 only
+shared/                      Contract files only, edited at breakpoints
+docs/team/                   Planning docs only
 ```
 
 Shared files are coordination points. Do not casually edit them during parallel work:
@@ -122,7 +128,8 @@ If a shared contract must change, pause at a breakpoint and announce it to the t
     └── team/
         ├── person-1-patient-app/
         ├── person-2-ai-backend/
-        └── person-3-pitch-demo/
+        ├── person-3-chat-safety/
+        └── person-4-pitch-demo/
 ```
 
 ---

@@ -7,7 +7,8 @@ Use one branch per owner:
 ```text
 person-1/patient-app
 person-2/ai-backend
-person-3/pitch-demo
+person-3/chat-safety
+person-4/pitch-demo
 ```
 
 Use short fix branches only after Hour 8:
@@ -31,14 +32,24 @@ apps/patient/
 Person 2 owns:
 
 ```text
-server/
+server/src/agents/ (except conversationAgent.js)
+server/src/services/
+server/src/routes/recoveryPlanRoute.js
 ```
 
 Person 3 owns:
 
 ```text
+server/src/routes/chatRoute.js
+server/src/safety/
+server/src/agents/conversationAgent.js
+```
+
+Person 4 owns:
+
+```text
 apps/pitch/
-docs/team/person-3-pitch-demo/
+docs/team/person-4-pitch-demo/
 ```
 
 Shared files require breakpoint approval:
@@ -118,4 +129,3 @@ feat: render medication timeline
 fix: return safe chat response for medication questions
 docs: add insurance pitch slide copy
 ```
-
