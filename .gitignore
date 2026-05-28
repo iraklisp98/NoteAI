@@ -1,2 +1,4 @@
 .entire/
 .codex/
+.env
+.env.local
