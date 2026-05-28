@@ -37,3 +37,8 @@ Timestamp: 2026-05-28 14:05 Europe/Athens
 Model used: GPT-5 Codex
 What changed: Added explicit React imports to JSX components after diagnosing a browser blank page caused by JSX transform output referencing React without a module binding.
 For what reason: Fix the local dev render while keeping patient app tests and build green.
+
+Timestamp: 2026-05-28T15:06:20+03:00
+Model used: GPT-5 Codex
+What changed: Paraphrased the README project summary.
+For what reason: User requested a small README change and commit to verify the workflow.

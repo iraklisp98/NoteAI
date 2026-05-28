@@ -1,6 +1,6 @@
 # CAREFLOW
 
-CAREFLOW is a hackathon MVP that turns a hospital discharge PDF into a patient-friendly recovery workflow. The primary demo case is pneumonia discharge planning.
+CAREFLOW is a hackathon MVP that converts hospital discharge PDFs into patient-friendly recovery workflows. The main demo scenario is pneumonia discharge planning.
 
 The app is a prototype only. It helps explain and organize discharge instructions, but it is not a doctor and does not replace medical advice. For emergencies, patients should call local emergency services. For medication changes or medical decisions, patients should contact a doctor or pharmacist.
 
