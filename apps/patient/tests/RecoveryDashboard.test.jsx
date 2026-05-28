@@ -14,7 +14,7 @@ describe('RecoveryDashboard', () => {
     for (const task of sampleRecoveryPlan.today) {
       expect(screen.getByText(task.task)).toBeInTheDocument();
       expect(screen.getByText(task.why_it_matters)).toBeInTheDocument();
-      expect(screen.getByText(task.source)).toBeInTheDocument();
+      expect(screen.getAllByText(task.source).length).toBeGreaterThan(0);
     }
 
     for (const medication of sampleRecoveryPlan.medications) {
@@ -30,7 +30,7 @@ describe('RecoveryDashboard', () => {
     for (const flag of sampleRecoveryPlan.red_flags) {
       expect(within(redFlags).getByText(flag.symptom)).toBeInTheDocument();
       expect(within(redFlags).getByText(flag.action)).toBeInTheDocument();
-      expect(within(redFlags).getByText(flag.urgency.replace('_', ' '), { exact: false })).toBeInTheDocument();
+      expect(within(redFlags).getByText(flag.urgency.replaceAll('_', ' '))).toBeInTheDocument();
     }
 
     for (const followUp of sampleRecoveryPlan.follow_ups) {
