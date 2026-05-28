@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import goldenIbuprofenAnswer from '../../../../shared/goldenIbuprofenAnswer.txt?raw';
 
 const DISCLAIMER =
