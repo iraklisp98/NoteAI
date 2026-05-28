@@ -1,5 +1,6 @@
 import http from "node:http";
 
+import { handleChatRoute } from "./routes/chatRoute.js";
 import { handleRecoveryPlanRoute } from "./routes/recoveryPlanRoute.js";
 
 function sendJson(response, statusCode, body) {
@@ -27,6 +28,11 @@ export function createServer() {
         } else {
           sendJson(response, 200, result);
         }
+        return;
+      }
+
+      if (request.method === "POST" && request.url === "/api/chat") {
+        sendJson(response, 200, await handleChatRoute(request));
         return;
       }
 
