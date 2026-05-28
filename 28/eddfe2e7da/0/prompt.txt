@@ -1,0 +1,29 @@
+add, commit and push the changes with message "login page and react fixes"
+
+---
+
+make a befault user with username: admin, password: admin
+
+---
+
+make a befault user with username: admin, password: admin, also in the username tab, enable the user to log in with username/email
+
+---
+
+make a default user with username: admin, password: admin, also in the username tab, enable the user to log in with username/email
+
+---
+
+make a default user with username: admin, password: admin, also in the username tab, enable the user to log in with username/email
+
+---
+
+discard current changes
+
+---
+
+make a default user with username: admin, password: admin, also in the username tab, enable the user to log in with username/email
+
+---
+
+in the login page i want the tabs to be blank, not pre-load the credentials
