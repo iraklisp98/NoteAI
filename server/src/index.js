@@ -22,7 +22,11 @@ export function createServer() {
 
       if (request.method === "POST" && request.url === "/api/recovery-plan") {
         const result = await handleRecoveryPlanRoute(request);
-        sendJson(response, 200, result);
+        if (result && typeof result.statusCode === "number" && "body" in result) {
+          sendJson(response, result.statusCode, result.body);
+        } else {
+          sendJson(response, 200, result);
+        }
         return;
       }
 

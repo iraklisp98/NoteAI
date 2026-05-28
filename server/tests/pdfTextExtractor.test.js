@@ -9,6 +9,20 @@ test("returns readable text from a plain text buffer fallback", async () => {
   assert.equal(text, "Discharge diagnosis: pneumonia");
 });
 
+test("extracts readable text from a simple text-based PDF stream", async () => {
+  const pdf = Buffer.from(
+    "%PDF-1.7\n" +
+      "1 0 obj <<>> stream\n" +
+      "BT (Discharge diagnosis: pneumonia) Tj [(Follow-up in ) 20 (3-5 days)] TJ ET\n" +
+      "endstream endobj"
+  );
+
+  const text = await extractPdfText(pdf);
+
+  assert.match(text, /Discharge diagnosis: pneumonia/);
+  assert.match(text, /Follow-up in 3-5 days/);
+});
+
 test("throws a fallback-friendly error when PDF text cannot be extracted", async () => {
   await assert.rejects(
     () => extractPdfText(Buffer.from("%PDF-1.7\n%binary scanned content")),
