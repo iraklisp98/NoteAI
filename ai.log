@@ -27,3 +27,8 @@ Timestamp: 2026-05-28T11:50:27+03:00
 Model used: GPT-5 Codex
 What changed: Reworked project planning docs for a fully parallel 4-way split: Person 1 patient app, Person 2 recovery-plan backend pipeline, Person 3 chat+safety backend, and Person 4 pitch/demo; updated ownership/branching docs and added new Person 3 and Person 4 task files.
 For what reason: The team requested complete isolation into four parallel workstreams with the fourth role dedicated only to pitching.
+
+Timestamp: 2026-05-28T12:00:43+03:00
+Model used: GPT-5 Codex
+What changed: Started Person 2 backend implementation with TDD: added Node test setup, recovery plan validator, fallback recovery-plan service, native /api/recovery-plan route, and conservative PDF extraction failure handling.
+For what reason: Person 2 needs a reliable backend foundation that returns valid RecoveryPlan JSON and gives the frontend a predictable fallback path before Gemini integration.
