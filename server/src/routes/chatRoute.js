@@ -1,6 +1,6 @@
-const { generateChatResponse } = require("../agents/conversationAgent");
+import { generateChatResponse } from "../agents/conversationAgent.js";
 
-function createChatHandler() {
+export function createChatHandler() {
   return async function chatHandler(request, response) {
     const body = request && typeof request.body === "object" && request.body !== null ? request.body : {};
     const question = typeof body.question === "string" ? body.question : "";
@@ -22,13 +22,9 @@ function createChatHandler() {
 
 const chatHandler = createChatHandler();
 
-function registerChatRoute(app) {
+export function registerChatRoute(app) {
   app.post("/api/chat", chatHandler);
   return app;
 }
 
-module.exports = {
-  createChatHandler,
-  registerChatRoute,
-  chatHandler,
-};
+export { chatHandler };

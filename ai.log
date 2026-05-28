@@ -32,3 +32,23 @@ Timestamp: 2026-05-28T12:21:58+03:00
 Model used: GPT-5 Codex
 What changed: Added Person 3 chat safety tests, safety classifier, conversation agent, `/api/chat` route handler, route registration helper, and task status updates.
 For what reason: The chat-safety backend needs deterministic safe answers for medication questions, emergency escalation, malformed input handling, and route integration.
+
+Timestamp: 2026-05-28T12:00:43+03:00
+Model used: GPT-5 Codex
+What changed: Started Person 2 backend implementation with TDD: added Node test setup, recovery plan validator, fallback recovery-plan service, native /api/recovery-plan route, and conservative PDF extraction failure handling.
+For what reason: Person 2 needs a reliable backend foundation that returns valid RecoveryPlan JSON and gives the frontend a predictable fallback path before Gemini integration.
+
+Timestamp: 2026-05-28T12:07:55+03:00
+Model used: GPT-5 Codex
+What changed: Added a tested Gemini client wrapper and wired the recovery-plan service to use valid Gemini JSON with fallback on invalid output or request failure.
+For what reason: Person 2 needs live Gemini integration behind the same validated RecoveryPlan contract while preserving demo-safe fallback behavior.
+
+Timestamp: 2026-05-28T12:19:01+03:00
+Model used: GPT-5 Codex
+What changed: Finished Person 2 backend MVP behavior with TDD coverage for multipart recovery-plan uploads, simple text-PDF extraction, PDF extraction failure responses, deterministic AI-failure fallback, and missing medication dose tracking.
+For what reason: Person 2 needs a reliable recovery-plan API that supports the required PDF/text demo path and keeps dashboard/chat inputs valid when live AI or PDF parsing fails.
+
+Timestamp: 2026-05-28T12:36:40+03:00
+Model used: GPT-5 Codex
+What changed: Resolved the backend merge conflict in ai.log and converted Person 3 chat/safety backend files from CommonJS to ES modules so they work with the backend package module type.
+For what reason: The backend and chat/safety branches needed to merge cleanly with all server tests passing before pushing main.

@@ -1,15 +1,16 @@
-const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const path = require("node:path");
-const test = require("node:test");
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
 
-const samplePlan = require("../../shared/sampleRecoveryPlan.json");
-const goldenIbuprofenAnswer = fs
-  .readFileSync(path.join(__dirname, "../../shared/goldenIbuprofenAnswer.txt"), "utf8")
-  .trim();
-const { classifyChatSafety } = require("../src/safety/chatSafetyClassifier");
-const { generateChatResponse } = require("../src/agents/conversationAgent");
-const { createChatHandler, registerChatRoute } = require("../src/routes/chatRoute");
+import samplePlan from "../../shared/sampleRecoveryPlan.json" assert { type: "json" };
+import { generateChatResponse } from "../src/agents/conversationAgent.js";
+import { createChatHandler, registerChatRoute } from "../src/routes/chatRoute.js";
+import { classifyChatSafety } from "../src/safety/chatSafetyClassifier.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const goldenIbuprofenAnswer = readFileSync(path.join(__dirname, "../../shared/goldenIbuprofenAnswer.txt"), "utf8").trim();
 
 test("ibuprofen question routes to doctor or pharmacist guidance", () => {
   const result = classifyChatSafety("Can I take ibuprofen with these medications?");
