@@ -57,3 +57,8 @@ Timestamp: 2026-05-28T13:01:04+03:00
 Model used: GPT-5 Codex
 What changed: Added a root README.md with CAREFLOW demo goals, project layout, backend commands, recovery-plan contract notes, development rules, and safety boundaries.
 For what reason: The repository needed a top-level README for project orientation.
+
+Timestamp: 2026-05-28T13:47:08+03:00
+Model used: GPT-5 Codex
+What changed: Added Iraklis Papigkiotis, Nikos Bougialas, and Kostas Tsioupros to README.md.
+For what reason: The README needed to list the project team members.

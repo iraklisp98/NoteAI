@@ -4,6 +4,12 @@ CAREFLOW is a hackathon MVP that turns a hospital discharge PDF into a patient-f
 
 The app is a prototype only. It helps explain and organize discharge instructions, but it is not a doctor and does not replace medical advice. For emergencies, patients should call local emergency services. For medication changes or medical decisions, patients should contact a doctor or pharmacist.
 
+## Team
+
+- Iraklis Papigkiotis
+- Nikos Bougialas
+- Kostas Tsioupros
+
 ## Demo Goal
 
 The demo should show that a confusing pneumonia discharge document can become a safe, structured recovery plan through a simple AI agent pipeline.
