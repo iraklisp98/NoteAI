@@ -16,7 +16,7 @@ The demo should show that a confusing pneumonia discharge document can become a 
 
 Required flow:
 
-1. Upload a pneumonia discharge PDF, paste discharge text, or load the sample note.
+1. Upload a pneumonia discharge PDF or paste discharge text.
 2. Show visible progress through the intake, summary, medication, risk, and education agents.
 3. Render a structured recovery dashboard for the patient.
 4. Ask the recovery chat: `Can I take ibuprofen with these medications?`

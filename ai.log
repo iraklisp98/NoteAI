@@ -121,4 +121,9 @@ Timestamp: 2026-05-28T16:34:54+03:00
 Model used: GPT-5 Codex
 What changed: Changed the Conversation Agent to call Gemini for chat answers with deterministic safety fallbacks, and updated chat route/tests for async Gemini-backed responses.
 For what reason: User wanted recovery chat to use Gemini instead of only fixed rule-based replies.
+
+Timestamp: 2026-05-28T17:03:16+03:00
+Model used: GPT-5 Codex
+What changed: Removed the patient app sample-note path, updated upload/paste-only recovery plan flow, and aligned PDF error copy and docs with the new behavior.
+For what reason: User asked for the frontend to use the uploaded PDF or pasted discharge text directly and to remove the sample-note button completely.
 >>>>>>> 9be80aa (feat: add pitch deck app)

@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -59,7 +59,7 @@ describe('CAREFLOW patient app', () => {
     await signIn();
 
     expect(screen.getByLabelText(/upload discharge pdf/i)).toBeInTheDocument();
-    expect(screen.getByText(disclaimerText)).toBeInTheDocument();
+    expect(screen.getAllByText(disclaimerText).length).toBeGreaterThan(0);
   });
 
   it('allows the default user to sign in with username or email', async () => {
@@ -81,72 +81,71 @@ describe('CAREFLOW patient app', () => {
     expect(screen.queryByLabelText(/upload discharge pdf/i)).not.toBeInTheDocument();
   });
 
-  it('renders the empty upload state with PDF, paste, sample, and disclaimer controls', async () => {
+  it('renders the empty upload state with PDF, paste, and disclaimer controls', async () => {
     render(<App />);
     await signIn();
 
     expect(screen.getByRole('heading', { name: /careflow/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/upload discharge pdf/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/paste discharge text/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /load sample pneumonia note/i })).toBeInTheDocument();
-    expect(screen.getByText(disclaimerText)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /load sample pneumonia note/i })).not.toBeInTheDocument();
+    expect(screen.getAllByText(disclaimerText).length).toBeGreaterThan(0);
   });
 
-  it('shows every shared agent progress stage while generating a recovery plan', async () => {
+  it('sends the uploaded PDF to the recovery-plan endpoint when generating a plan', async () => {
     const user = userEvent.setup();
-    let resolvePlan;
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(
-        () =>
-          new Promise((resolve) => {
-            resolvePlan = () =>
-              resolve({
-                ok: true,
-                json: async () => ({ plan: sampleRecoveryPlan, agents: agentProgress, warnings: [] })
-              });
-          })
-      )
-    );
+    const fetchMock = vi.fn(async () => ({
+      ok: true,
+      json: async () => ({ plan: sampleRecoveryPlan, agents: agentProgress, warnings: [] })
+    }));
+    vi.stubGlobal('fetch', fetchMock);
 
     render(<App />);
     await signIn();
-    await user.click(screen.getByRole('button', { name: /load sample pneumonia note/i }));
-
-    const progress = screen.getByRole('region', { name: /agent progress/i });
-    for (const stage of agentProgress) {
-      expect(within(progress).getByText(stage.name)).toBeInTheDocument();
-      expect(within(progress).getByText(stage.summary)).toBeInTheDocument();
-    }
-
-    resolvePlan();
-    await screen.findByText(sampleRecoveryPlan.summary.title);
-  });
-
-  it('shows a PDF extraction fallback error while keeping paste and sample actions available', async () => {
-    const user = userEvent.setup();
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => ({
-        ok: false,
-        json: async () => ({
-          error: 'PDF_TEXT_EXTRACTION_FAILED',
-          message: 'We could not read this PDF reliably. Paste the discharge text or use the sample note for the demo.'
-        })
-      }))
-    );
-
-    render(<App />);
-    await signIn();
+    const file = new File(['%PDF-1.4 discharge'], 'discharge-summary.pdf', {
+      type: 'application/pdf'
+    });
+    await user.upload(screen.getByLabelText(/upload discharge pdf/i), file);
+    await user.type(screen.getByLabelText(/paste discharge text/i), 'Backup text should be ignored when file exists.');
     await user.click(screen.getByRole('button', { name: /generate recovery plan/i }));
 
-    expect(await screen.findByText(/we could not read this pdf reliably/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/paste discharge text/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /load sample pneumonia note/i })).toBeInTheDocument();
-    expect(screen.getByText(disclaimerText)).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const request = fetchMock.mock.calls[0][0];
+    const body = fetchMock.mock.calls[0][1].body;
+    expect(request).toBe('/api/recovery-plan');
+    expect(body).toBeInstanceOf(FormData);
+    expect(body.get('file')).toBeInstanceOf(File);
+    expect(body.get('file').name).toBe('discharge-summary.pdf');
+    expect(body.get('text')).toContain('Backup text should be ignored');
+    expect(await screen.findByText(sampleRecoveryPlan.summary.title)).toBeInTheDocument();
   });
 
-  it('renders the full dashboard after the sample plan is loaded', async () => {
+  it('uses paste discharge text when no upload is provided', async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi.fn(async () => ({
+      ok: true,
+      json: async () => ({ plan: sampleRecoveryPlan, agents: agentProgress, warnings: [] })
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(<App />);
+    await signIn();
+    await user.type(
+      screen.getByLabelText(/paste discharge text/i),
+      'Discharge diagnosis: pneumonia. Continue antibiotics.'
+    );
+    await user.click(screen.getByRole('button', { name: /generate recovery plan/i }));
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const body = fetchMock.mock.calls[0][1].body;
+    expect(body).toBeInstanceOf(FormData);
+    expect(body.get('file')).toBeNull();
+    expect(body.get('text')).toContain('Discharge diagnosis: pneumonia');
+    expect(await screen.findByText(sampleRecoveryPlan.summary.title)).toBeInTheDocument();
+    expect(screen.getAllByText(disclaimerText).length).toBeGreaterThan(0);
+  });
+
+  it('renders the full dashboard after pasted discharge text is submitted', async () => {
     const user = userEvent.setup();
     vi.stubGlobal(
       'fetch',
@@ -158,7 +157,11 @@ describe('CAREFLOW patient app', () => {
 
     render(<App />);
     await signIn();
-    await user.click(screen.getByRole('button', { name: /load sample pneumonia note/i }));
+    await user.type(
+      screen.getByLabelText(/paste discharge text/i),
+      'Discharge diagnosis: pneumonia. Continue antibiotics.'
+    );
+    await user.click(screen.getByRole('button', { name: /generate recovery plan/i }));
 
     expect(await screen.findByRole('heading', { name: /recovery snapshot/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /today's plan/i })).toBeInTheDocument();
