@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "b1aa96d4da1a",
+  "strategy": "manual-commit",
+  "branch": "PatientApp",
+  "checkpoints_count": 3,
+  "files_touched": [
+    "ai.log",
+    "apps/patient/src/App.jsx",
+    "apps/patient/src/components/AgentProgress.jsx",
+    "apps/patient/src/components/RecoveryChat.jsx",
+    "apps/patient/src/components/RecoveryDashboard.jsx",
+    "apps/patient/tests/App.test.jsx",
+    "package.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/b1/aa96d4da1a/0/metadata.json",
+      "transcript": "/b1/aa96d4da1a/0/full.jsonl",
+      "content_hash": "/b1/aa96d4da1a/0/content_hash.txt",
+      "prompt": "/b1/aa96d4da1a/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 128540,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3626112,
+    "output_tokens": 9584,
+    "api_call_count": 71
+  }
+}
