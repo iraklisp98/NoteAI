@@ -10,6 +10,7 @@ const DISCLAIMER =
   'CAREFLOW is a prototype that helps explain and organize discharge instructions. It is not a doctor and does not replace medical advice. For emergencies, call local emergency services. For medication changes or medical decisions, contact your doctor or pharmacist.';
 
 export default function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [plan, setPlan] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -69,6 +70,58 @@ export default function App() {
 
   function generateRecoveryPlan() {
     void requestRecoveryPlan(buildFormPayload());
+  }
+
+  if (!isSignedIn) {
+    return (
+      <main className="login-shell">
+        <section className="login-panel" aria-labelledby="login-title">
+          <div className="login-copy">
+            <p className="eyebrow">Patient recovery dashboard</p>
+            <h1 id="login-title">Welcome to CAREFLOW</h1>
+            <p>
+              Sign in to organize discharge instructions, recovery tasks, medications,
+              warning signs, and questions for your care team.
+            </p>
+          </div>
+
+          <form
+            className="login-form"
+            aria-label="Patient login"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setIsSignedIn(true);
+            }}
+          >
+            <label htmlFor="login-email">Email address</label>
+            <input
+              id="login-email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder="patient@example.com"
+            />
+
+            <label htmlFor="login-code">Access code</label>
+            <input
+              id="login-code"
+              name="access-code"
+              type="password"
+              autoComplete="one-time-code"
+              placeholder="Enter your code"
+            />
+
+            <button type="submit" className="primary-button">
+              Sign in to CAREFLOW
+            </button>
+          </form>
+
+          <aside className="login-disclaimer" aria-label="Medical disclaimer">
+            <p>{DISCLAIMER}</p>
+          </aside>
+        </section>
+      </main>
+    );
   }
 
   return (

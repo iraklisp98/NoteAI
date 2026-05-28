@@ -62,3 +62,8 @@ Timestamp: 2026-05-28 13:42 Europe/Athens
 Model used: GPT-5 Codex
 What changed: Added runnable Vite entry files, local sample fallbacks, controlled patient input state, and polished responsive CAREFLOW patient app styling.
 For what reason: Complete the Person 1 UI polish slice and make the patient app presentable for the demo while keeping tests green.
+
+Timestamp: 2026-05-28T14:55:27+03:00
+Model used: GPT-5 Codex
+What changed: Added a patient login page with email and access-code fields, gated the recovery dashboard behind sign-in, updated responsive styles, and covered the flow in App tests.
+For what reason: Make the CAREFLOW patient UI more user-friendly with a clear entry screen before discharge tools.

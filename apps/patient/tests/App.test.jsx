@@ -11,9 +11,32 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+async function signIn() {
+  const user = userEvent.setup();
+  await user.type(screen.getByLabelText(/email address/i), 'patient@example.com');
+  await user.type(screen.getByLabelText(/access code/i), '123456');
+  await user.click(screen.getByRole('button', { name: /sign in to careflow/i }));
+  return user;
+}
+
 describe('CAREFLOW patient app', () => {
-  it('renders the empty upload state with PDF, paste, sample, and disclaimer controls', () => {
+  it('starts on a patient-friendly login page before showing discharge tools', async () => {
     render(<App />);
+
+    expect(screen.getByRole('heading', { name: /welcome to careflow/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/access code/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText(/upload discharge pdf/i)).not.toBeInTheDocument();
+
+    await signIn();
+
+    expect(screen.getByLabelText(/upload discharge pdf/i)).toBeInTheDocument();
+    expect(screen.getByText(disclaimerText)).toBeInTheDocument();
+  });
+
+  it('renders the empty upload state with PDF, paste, sample, and disclaimer controls', async () => {
+    render(<App />);
+    await signIn();
 
     expect(screen.getByRole('heading', { name: /careflow/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/upload discharge pdf/i)).toBeInTheDocument();
@@ -40,6 +63,7 @@ describe('CAREFLOW patient app', () => {
     );
 
     render(<App />);
+    await signIn();
     await user.click(screen.getByRole('button', { name: /load sample pneumonia note/i }));
 
     const progress = screen.getByRole('region', { name: /agent progress/i });
@@ -66,6 +90,7 @@ describe('CAREFLOW patient app', () => {
     );
 
     render(<App />);
+    await signIn();
     await user.click(screen.getByRole('button', { name: /generate recovery plan/i }));
 
     expect(await screen.findByText(/we could not read this pdf reliably/i)).toBeInTheDocument();
@@ -85,6 +110,7 @@ describe('CAREFLOW patient app', () => {
     );
 
     render(<App />);
+    await signIn();
     await user.click(screen.getByRole('button', { name: /load sample pneumonia note/i }));
 
     expect(await screen.findByRole('heading', { name: /recovery snapshot/i })).toBeInTheDocument();
