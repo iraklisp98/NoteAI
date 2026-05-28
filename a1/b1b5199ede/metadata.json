@@ -1,0 +1,44 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "a1b1b5199ede",
+  "strategy": "manual-commit",
+  "branch": "agents",
+  "checkpoints_count": 4,
+  "files_touched": [
+    ".env.example",
+    "ai.log",
+    "apps/patient/node_modules/.vite/vitest/results.json",
+    "apps/patient/package-lock.json",
+    "apps/patient/package.json",
+    "server/src/agents/agentValidation.js",
+    "server/src/agents/composeRecoveryPlan.js",
+    "server/src/agents/educationAgent.js",
+    "server/src/agents/intakeAgent.js",
+    "server/src/agents/medicationAgent.js",
+    "server/src/agents/riskAgent.js",
+    "server/src/agents/summaryAgent.js",
+    "server/src/index.js",
+    "server/src/routes/chatRoute.js",
+    "server/src/services/recoveryPlanService.js",
+    "server/tests/chatRouteHttp.test.js",
+    "server/tests/pdfTextExtractor.test.js",
+    "server/tests/recoveryPlanService.test.js",
+    "shared/sampleMalePneumoniaDischargeSummary.pdf",
+    "shared/sampleMalePneumoniaDischargeSummary.txt"
+  ],
+  "sessions": [
+    {
+      "metadata": "/a1/b1b5199ede/0/metadata.json",
+      "transcript": "/a1/b1b5199ede/0/full.jsonl",
+      "content_hash": "/a1/b1b5199ede/0/content_hash.txt",
+      "prompt": "/a1/b1b5199ede/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 172750,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3572096,
+    "output_tokens": 22073,
+    "api_call_count": 58
+  }
+}

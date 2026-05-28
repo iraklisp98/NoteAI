@@ -1,0 +1,22 @@
+where are so far according to the prd, what feature is missing from the docs/team
+
+---
+
+try patient app tests with vitest again
+
+---
+
+are all the agents integrated? intake agent, summary agent, medication agent, risk agent, education agent, conversation agent
+
+---
+
+start to integrate them as seperate function/files
+
+---
+
+create an example discharge summary for a patient that has pneumonia, is 55 years old, male
+
+---
+
+› create an example discharge summary pdf for a patient that has pneumonia, is 55
+  years old, male
