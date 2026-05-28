@@ -26,7 +26,7 @@ const MEDICATION_CHANGE_PATTERNS = [
   /\bhow many\b.*\b(can|should)\b.*\btake\b/i,
 ];
 
-function classifyChatSafety(question) {
+export function classifyChatSafety(question) {
   const text = typeof question === "string" ? question.trim() : "";
 
   if (!text) {
@@ -66,7 +66,3 @@ function classifyChatSafety(question) {
 function matchesAny(text, patterns) {
   return patterns.some((pattern) => pattern.test(text));
 }
-
-module.exports = {
-  classifyChatSafety,
-};

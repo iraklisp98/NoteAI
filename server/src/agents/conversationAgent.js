@@ -1,9 +1,9 @@
-const { classifyChatSafety } = require("../safety/chatSafetyClassifier");
+import { classifyChatSafety } from "../safety/chatSafetyClassifier.js";
 
 const EMERGENCY_SENTENCE =
   "If you have chest pain, severe trouble breathing, confusion, blue lips, fainting, or oxygen below 90%, seek emergency care.";
 
-function generateChatResponse({ question, recoveryPlan } = {}) {
+export function generateChatResponse({ question, recoveryPlan } = {}) {
   const safety = classifyChatSafety(question);
   const plan = normalizePlan(recoveryPlan);
 
@@ -135,7 +135,3 @@ function lowerFirst(value) {
 function formatMedicationNameForChat(name) {
   return name.replace(/\s+inhaler\b/i, "").toLowerCase();
 }
-
-module.exports = {
-  generateChatResponse,
-};
