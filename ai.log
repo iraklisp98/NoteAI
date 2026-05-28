@@ -127,23 +127,3 @@ Model used: GPT-5 Codex
 What changed: Removed the patient app sample-note path, updated upload/paste-only recovery plan flow, and aligned PDF error copy and docs with the new behavior.
 For what reason: User asked for the frontend to use the uploaded PDF or pasted discharge text directly and to remove the sample-note button completely.
 >>>>>>> 9be80aa (feat: add pitch deck app)
-
-Timestamp: 2026-05-28T17:16:59+03:00
-Model used: GPT-5 Codex
-What changed: Added text-derived deterministic recovery-plan fallback behavior and tests for uploaded PDF or pasted discharge text.
-For what reason: User reported uploaded PDFs generated a mock recovery plan instead of a plan based on the uploaded document.
-
-Timestamp: 2026-05-28T17:31:51+03:00
-Model used: GPT-5 Codex
-What changed: Removed local fallback answers for recovery-plan generation and non-emergency chat; live Gemini failures now return explicit API errors.
-For what reason: User wanted the agents to use the API key every time instead of returning mock or local generated answers.
-
-Timestamp: 2026-05-28T18:00:12+03:00
-Model used: GPT-5 Codex
-What changed: Added OpenAI Responses API support, provider selection, OpenAI environment variables, and provider/client tests.
-For what reason: User asked to insert an OpenAI API option for the live agents.
-
-Timestamp: 2026-05-28T18:05:27+03:00
-Model used: GPT-5 Codex
-What changed: Normalized object-shaped Intake Agent arrays into strings and added regression coverage.
-For what reason: OpenAI returned medication objects where downstream intake validation expected string arrays.
