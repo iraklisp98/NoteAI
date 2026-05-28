@@ -106,4 +106,19 @@ Timestamp: 2026-05-28T15:38:33+03:00
 Model used: GPT-5 Codex
 What changed: Added the Person 4 pitch deck app, pitch coverage tests, demo script, insurance story, Android future plan, rehearsal checklist, and Node/Vite generated-file ignores.
 For what reason: User asked to take over the Person 4 pitch/demo workstream on the pitch branch.
+
+Timestamp: 2026-05-28T16:13:36+03:00
+Model used: GPT-5 Codex
+What changed: Added a local .env template for Gemini configuration and replaced the example Gemini key with a placeholder.
+For what reason: User requested a .env file for inserting the Gemini API key, and repo rules prohibit committed API keys.
+
+Timestamp: 2026-05-28T16:21:51+03:00
+Model used: GPT-5 Codex
+What changed: Added backend .env loading, a backend start script, Node-compatible chat route tests, and coverage for the existing patient-app /api proxy.
+For what reason: User added a Gemini key locally and needed the patient chat/recovery flow to reach the backend and live Gemini path.
+
+Timestamp: 2026-05-28T16:34:54+03:00
+Model used: GPT-5 Codex
+What changed: Changed the Conversation Agent to call Gemini for chat answers with deterministic safety fallbacks, and updated chat route/tests for async Gemini-backed responses.
+For what reason: User wanted recovery chat to use Gemini instead of only fixed rule-based replies.
 >>>>>>> 9be80aa (feat: add pitch deck app)

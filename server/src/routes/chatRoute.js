@@ -35,7 +35,7 @@ export function createChatHandler() {
     const { question, recoveryPlan } = normalizeChatBody(request?.body);
 
     try {
-      const payload = generateChatResponse({ question, recoveryPlan });
+      const payload = await generateChatResponse({ question, recoveryPlan });
       return response.status(200).json(payload);
     } catch (error) {
       return response.status(200).json({
@@ -52,7 +52,7 @@ export async function handleChatRoute(request) {
   try {
     const { question, recoveryPlan } = normalizeChatBody(await readJsonBody(request));
 
-    return generateChatResponse({ question, recoveryPlan });
+    return await generateChatResponse({ question, recoveryPlan });
   } catch (error) {
     return {
       answer:

@@ -1,7 +1,13 @@
 import http from "node:http";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { handleChatRoute } from "./routes/chatRoute.js";
 import { handleRecoveryPlanRoute } from "./routes/recoveryPlanRoute.js";
+import { loadEnvFile } from "./services/envLoader.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(__dirname, "../..");
 
 function sendJson(response, statusCode, body) {
   response.writeHead(statusCode, {
@@ -50,6 +56,7 @@ export function createServer() {
 }
 
 if (process.argv[1] === new URL(import.meta.url).pathname) {
+  await loadEnvFile(path.join(repoRoot, ".env"));
   const port = Number.parseInt(process.env.SERVER_PORT || "3001", 10);
 
   createServer().listen(port, () => {

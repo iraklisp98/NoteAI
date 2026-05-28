@@ -1,8 +1,13 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
-import samplePlan from "../../shared/sampleRecoveryPlan.json" assert { type: "json" };
 import { createServer } from "../src/index.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const samplePlan = JSON.parse(readFileSync(path.join(__dirname, "../../shared/sampleRecoveryPlan.json"), "utf8"));
 
 async function postJson(server, path, body) {
   const listener = server.listen(0);
