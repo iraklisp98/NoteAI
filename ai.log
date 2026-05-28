@@ -32,3 +32,8 @@ Timestamp: 2026-05-28 12:00 Europe/Athens
 Model used: GPT-5 Codex
 What changed: Added initial PatientApp Vitest/React Testing Library test harness and failing tests for upload state, dashboard rendering, agent progress, error fallback, chat, and disclaimer behavior.
 For what reason: Establish Person 1 TDD coverage before implementing the React patient app.
+
+Timestamp: 2026-05-28 12:49 Europe/Athens
+Model used: GPT-5 Codex
+What changed: Added the initial PatientApp empty shell with PDF upload, paste field, sample/generate actions, disclaimer, and inert placeholders for dashboard/chat components.
+For what reason: Complete the first TDD slice for the required empty upload state while keeping later behaviors unimplemented.
