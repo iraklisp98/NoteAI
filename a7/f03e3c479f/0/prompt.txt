@@ -85,3 +85,7 @@ these are fixed replies right? is the chat actually working using agents?
 ---
 
 fix it so it actually uses gemini
+
+---
+
+add and commit
