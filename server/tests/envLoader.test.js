@@ -1,10 +1,21 @@
 import assert from "node:assert/strict";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import { loadEnvFile } from "../src/services/envLoader.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+test(".env.example contains placeholders instead of real API keys", async () => {
+  const exampleEnvPath = path.resolve(__dirname, "../../.env.example");
+  const exampleEnv = await readFile(exampleEnvPath, "utf8");
+
+  assert.equal(/sk-proj-[A-Za-z0-9_-]{20,}/.test(exampleEnv), false, "OpenAI API key must not be committed");
+  assert.equal(/AIza[0-9A-Za-z_-]{20,}/.test(exampleEnv), false, "Gemini API key must not be committed");
+});
 
 test("loads missing environment variables from a .env file without overwriting existing values", async () => {
   const tempDir = await mkdtemp(path.join(os.tmpdir(), "careflow-env-"));

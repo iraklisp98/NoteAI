@@ -127,3 +127,8 @@ Model used: GPT-5 Codex
 What changed: Removed the patient app sample-note path, updated upload/paste-only recovery plan flow, and aligned PDF error copy and docs with the new behavior.
 For what reason: User asked for the frontend to use the uploaded PDF or pasted discharge text directly and to remove the sample-note button completely.
 >>>>>>> 9be80aa (feat: add pitch deck app)
+
+Timestamp: 2026-05-28T19:12:52+03:00
+Model used: GPT-5 Codex
+What changed: Replaced the committed API key in .env.example with placeholder values and added a regression test that blocks real-looking API keys in the template.
+For what reason: User requested removing the API key from the repository example environment file.
