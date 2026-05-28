@@ -1,0 +1,138 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "a7f03e3c479f",
+  "session_id": "019e6e8d-32bc-74e0-a531-e2acdbf5fc1f",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-28T13:37:47.693894802Z",
+  "branch": "fix_api",
+  "checkpoints_count": 8,
+  "files_touched": [
+    ".env.example",
+    "ai.log",
+    "apps/patient/tests/viteConfig.test.js",
+    "server/package.json",
+    "server/src/agents/conversationAgent.js",
+    "server/src/index.js",
+    "server/src/routes/chatRoute.js",
+    "server/src/services/envLoader.js",
+    "server/tests/chatRouteHttp.test.js",
+    "server/tests/chatSafety.test.js",
+    "server/tests/envLoader.test.js"
+  ],
+  "agent": "Codex",
+  "model": "gpt-5.5",
+  "turn_id": "28a5fd9ea93e",
+  "token_usage": {
+    "input_tokens": 345471,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 12145536,
+    "output_tokens": 36529,
+    "api_call_count": 157
+  },
+  "session_metrics": {
+    "turn_count": 8
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-28T13:37:47.636116421Z",
+    "agent_lines": 241,
+    "agent_removed": 16,
+    "human_added": 5,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 246,
+    "total_lines_changed": 262,
+    "agent_percentage": 98.09160305343512,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 1,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".gitignore": 1
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1,
+      "agent_lines_removed": 0
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 5,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2,
+      "agent_lines_removed": 1,
+      "user_added_per_file": {
+        "ai.log": 5
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 131,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 131,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 131,
+      "agent_lines_removed": 3
+    },
+    {
+      "checkpoint_number": 7,
+      "user_lines_added": 34,
+      "user_lines_removed": 21629,
+      "agent_lines_added": 131,
+      "agent_lines_removed": 3,
+      "user_added_per_file": {
+        "apps/patient/node_modules/.vite/deps/_metadata.json": 26,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js": 4,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js.map": 4
+      },
+      "user_removed_per_file": {
+        "apps/patient/node_modules/.vite/deps/_metadata.json": 5,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js": 21620,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js.map": 4
+      }
+    },
+    {
+      "checkpoint_number": 8,
+      "user_lines_added": 34,
+      "user_lines_removed": 21629,
+      "agent_lines_added": 131,
+      "agent_lines_removed": 3,
+      "user_added_per_file": {
+        "apps/patient/node_modules/.vite/deps/_metadata.json": 26,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js": 4,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js.map": 4
+      },
+      "user_removed_per_file": {
+        "apps/patient/node_modules/.vite/deps/_metadata.json": 5,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js": 21620,
+        "apps/patient/node_modules/.vite/deps/react-dom_client.js.map": 4
+      }
+    },
+    {
+      "checkpoint_number": 9,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 246,
+      "agent_lines_removed": 16
+    }
+  ]
+}

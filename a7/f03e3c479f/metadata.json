@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.6.3",
+  "checkpoint_id": "a7f03e3c479f",
+  "strategy": "manual-commit",
+  "branch": "fix_api",
+  "checkpoints_count": 8,
+  "files_touched": [
+    ".env.example",
+    "ai.log",
+    "apps/patient/tests/viteConfig.test.js",
+    "server/package.json",
+    "server/src/agents/conversationAgent.js",
+    "server/src/index.js",
+    "server/src/routes/chatRoute.js",
+    "server/src/services/envLoader.js",
+    "server/tests/chatRouteHttp.test.js",
+    "server/tests/chatSafety.test.js",
+    "server/tests/envLoader.test.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/a7/f03e3c479f/0/metadata.json",
+      "transcript": "/a7/f03e3c479f/0/full.jsonl",
+      "content_hash": "/a7/f03e3c479f/0/content_hash.txt",
+      "prompt": "/a7/f03e3c479f/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 345471,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 12145536,
+    "output_tokens": 36529,
+    "api_call_count": 157
+  }
+}
